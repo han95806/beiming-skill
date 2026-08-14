@@ -1,0 +1,13 @@
+interface:
+  display_name: "北冥写作Skill"
+  short_description: "从选题共创、真实实验和材料研究，到成稿、配图与发布交付"
+  icon_small: "./assets/icon.svg"
+  icon_large: "./assets/icon.svg"
+  default_prompt: "使用 $beiming-writing，结合我的思考澄清选题；如果需要实验，先确定待验证问题并完成真实测试，再根据材料确定主旨、写稿并准备配图和发布交付物。"
+policy:
+  products:
+    - "chatgpt"
+    - "codex"
+    - "api"
+    - "atlas"
+  allow_implicit_invocation: true
