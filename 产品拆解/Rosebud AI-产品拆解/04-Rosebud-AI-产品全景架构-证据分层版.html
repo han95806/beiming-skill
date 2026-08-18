@@ -1,0 +1,214 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="description" content="Rosebud AI 产品全景架构：基于真实页面操作、截图和官方公开资料的证据分层拆解。">
+  <title>Rosebud AI｜产品全景架构 · 证据分层版</title>
+  <style>
+    :root{--bg:#090914;--panel:#111122;--panel2:#17152e;--ink:#f6f4ff;--muted:#aca8c7;--line:#2d2949;--violet:#a574ff;--pink:#fa71c1;--cyan:#65d8ff;--green:#65e6b4;--amber:#ffc56b;--red:#ff7b8b;--shadow:0 18px 52px rgba(0,0,0,.32)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 16% -8%,#30205f 0,transparent 34%),radial-gradient(circle at 88% 8%,#1c3c58 0,transparent 28%),var(--bg);color:var(--ink);font:15px/1.72 Inter,ui-sans-serif,system-ui,-apple-system,"PingFang SC","Microsoft YaHei",sans-serif}a{color:var(--cyan);text-decoration:none}a:hover{text-decoration:underline}.shell{max-width:1480px;margin:auto;padding:0 28px 80px}.hero{min-height:72vh;display:flex;align-items:flex-end;padding:84px 0 64px;position:relative}.hero:after{content:"";position:absolute;right:4%;top:18%;width:330px;height:330px;border:1px solid #6e50b84d;border-radius:50%;box-shadow:0 0 80px #7a53d830 inset,0 0 100px #7a53d829;pointer-events:none}.eyebrow{color:var(--cyan);letter-spacing:.16em;text-transform:uppercase;font-size:12px;font-weight:800}.hero h1{font-size:clamp(44px,7vw,96px);line-height:.96;letter-spacing:-.06em;margin:16px 0 28px;max-width:980px}.hero h1 span{background:linear-gradient(90deg,var(--violet),var(--pink),var(--cyan));-webkit-background-clip:text;color:transparent}.lead{max-width:900px;font-size:20px;color:#d0cce5;margin:0}.meta{display:flex;gap:10px;flex-wrap:wrap;margin-top:28px}.tag,.pill{border:1px solid var(--line);border-radius:999px;padding:6px 11px;color:#d8d4ec;background:#121022cc;font-size:12px}.pill.confirmed{color:var(--green);border-color:#65e6b455}.pill.inferred{color:var(--amber);border-color:#ffc56b55}.pill.proposed{color:var(--cyan);border-color:#65d8ff55}.nav{position:sticky;top:0;z-index:20;margin:0 -28px;padding:12px 28px;background:#090914e8;backdrop-filter:blur(18px);border-top:1px solid #ffffff0c;border-bottom:1px solid var(--line);display:flex;gap:8px;overflow-x:auto}.nav a{white-space:nowrap;padding:7px 10px;border-radius:8px;color:#cbc6df;font-size:12px}.nav a:hover{background:#ffffff0c;text-decoration:none;color:white}section{scroll-margin-top:72px;padding:70px 0 8px}.section-head{display:grid;grid-template-columns:120px 1fr;gap:24px;align-items:start;margin-bottom:28px}.section-num{font:700 11px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet);letter-spacing:.18em}.section-head h2{font-size:clamp(28px,4vw,50px);line-height:1.08;letter-spacing:-.04em;margin:0 0 10px}.section-head p{margin:0;color:var(--muted);max-width:820px}.grid{display:grid;gap:16px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g3{grid-template-columns:repeat(3,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}.card{background:linear-gradient(150deg,#19162e,#100f20);border:1px solid var(--line);border-radius:18px;padding:22px;box-shadow:var(--shadow)}.card h3{margin:0 0 10px;font-size:17px}.card p{margin:0;color:var(--muted)}.metric{font-size:38px;font-weight:850;line-height:1.05;letter-spacing:-.04em;margin:8px 0;color:white}.metric small{font-size:14px;color:var(--muted);font-weight:500}.summary{border-left:3px solid var(--pink);padding:26px 28px;background:linear-gradient(90deg,#fa71c114,transparent);font-size:23px;line-height:1.55}.summary strong{color:#fff}.flow{display:grid;grid-template-columns:repeat(9,minmax(120px,1fr));gap:8px;overflow-x:auto;padding-bottom:8px}.flow .node{min-height:118px;border:1px solid var(--line);border-radius:14px;padding:14px;background:#131126;position:relative}.flow .node:not(:last-child):after{content:"→";position:absolute;right:-10px;top:40%;z-index:2;color:var(--violet);font-weight:900}.node b{display:block;margin-bottom:7px}.node small{color:var(--muted)}.shot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.shot{border:1px solid var(--line);border-radius:18px;overflow:hidden;background:#0c0b18}.shot img{display:block;width:100%;aspect-ratio:16/10;object-fit:cover;object-position:top;background:#05050b}.shot figcaption{padding:14px 16px;color:var(--muted)}.shot figcaption b{color:white;margin-right:8px}.table-wrap{overflow:auto;border:1px solid var(--line);border-radius:16px}.table-wrap table{border-collapse:collapse;width:100%;min-width:880px;background:#0f0e1e}.table-wrap th,.table-wrap td{text-align:left;vertical-align:top;padding:14px;border-bottom:1px solid var(--line)}.table-wrap th{position:sticky;top:0;background:#17142a;color:#cbc7dd;font-size:12px;letter-spacing:.05em}.table-wrap tr:last-child td{border-bottom:0}.evidence{font-size:11px;font-weight:800;border-radius:99px;padding:4px 8px;display:inline-block}.ev-confirmed{background:#65e6b418;color:var(--green)}.ev-inferred{background:#ffc56b18;color:var(--amber)}.ev-proposed{background:#65d8ff18;color:var(--cyan)}.layers{display:grid;gap:10px}.layer{display:grid;grid-template-columns:90px 190px 1fr 120px;gap:16px;align-items:center;border:1px solid var(--line);border-radius:14px;padding:15px;background:linear-gradient(90deg,#1a1731,#0f0e1d)}.layer .ln{font:800 22px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--violet)}.layer b{font-size:15px}.layer p{margin:0;color:var(--muted)}.diagram{border:1px solid var(--line);border-radius:18px;padding:18px;background:#0c0b18;overflow:auto}.diagram svg{display:block;min-width:980px;width:100%;height:auto}.svg-box{fill:#17142a;stroke:#463e6d;stroke-width:1}.svg-title{fill:#fff;font-size:14px;font-weight:700}.svg-copy{fill:#aaa5c0;font-size:11px}.svg-confirm{stroke:#65e6b4;stroke-width:2;fill:none;marker-end:url(#arrowG)}.svg-infer{stroke:#ffc56b;stroke-width:2;stroke-dasharray:6 5;fill:none;marker-end:url(#arrowA)}.svg-propose{stroke:#65d8ff;stroke-width:2;stroke-dasharray:2 5;fill:none;marker-end:url(#arrowC)}.code{background:#090814;border:1px solid #29253f;border-radius:12px;padding:16px;color:#cfc9e7;font:12px/1.7 ui-monospace,SFMono-Regular,Menlo,monospace;overflow:auto}.compare{display:grid;grid-template-columns:1fr 64px 1fr;gap:14px;align-items:stretch}.compare .bridge{display:flex;align-items:center;justify-content:center;font-size:32px;color:var(--violet)}.list{margin:12px 0 0;padding-left:19px;color:var(--muted)}.list li+li{margin-top:7px}.risk{border-left:3px solid var(--amber)}.risk.p0{border-left-color:var(--red)}.toolbar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 18px}.filter{appearance:none;border:1px solid var(--line);border-radius:999px;background:#121022;color:#cbc7dd;padding:8px 12px;cursor:pointer}.filter.active{background:#7047bd;color:white;border-color:#9669e9}.trace-row[hidden]{display:none}.callout{padding:18px 20px;border:1px solid #4e4276;border-radius:14px;background:#7a53d810;color:#d9d3ed}.footer{border-top:1px solid var(--line);margin-top:72px;padding-top:28px;color:var(--muted);font-size:13px}.copy-btn{float:right;border:1px solid var(--line);background:#16132a;color:#ddd7f4;border-radius:8px;padding:6px 9px;cursor:pointer}.copy-btn:hover{background:#272242}@media(max-width:980px){.g3,.g4{grid-template-columns:1fr 1fr}.layer{grid-template-columns:60px 140px 1fr}.layer>:last-child{grid-column:2/-1}.section-head{grid-template-columns:1fr}.hero:after{display:none}.compare{grid-template-columns:1fr}.compare .bridge{transform:rotate(90deg)}.shot-grid{grid-template-columns:1fr}}@media(max-width:640px){.shell{padding:0 16px 60px}.nav{margin:0 -16px;padding-left:16px}.g2,.g3,.g4{grid-template-columns:1fr}.hero{min-height:auto;padding-top:70px}.hero h1{font-size:48px}.lead{font-size:17px}.layer{grid-template-columns:50px 1fr}.layer p,.layer>:last-child{grid-column:1/-1}.section-head h2{font-size:34px}}
+  </style>
+</head>
+<body>
+<div class="shell">
+  <header class="hero" id="top">
+    <div>
+      <div class="eyebrow">Evidence-driven product teardown · 2026.08.19</div>
+      <h1>Rosebud AI<br><span>产品全景架构</span></h1>
+      <p class="lead">从创意、模板和资产准备，到 Rosie 编码、运行时预览、版本与额度，再到发布、游玩和 Remix——一份以真实交互为主证据、明确区分事实与推断的全链路拆解。</p>
+      <div class="meta"><span class="tag">目标：develop.play.rosebud.ai</span><span class="tag">实测：创建 1 个项目</span><span class="tag">实测：提交 1 次小范围修改</span><span class="tag">未发布 / 未购买 / 未删除</span></div>
+    </div>
+  </header>
+
+  <nav class="nav" aria-label="报告导航">
+    <a href="#verdict">结论</a><a href="#journey">旅程</a><a href="#screens">截图</a><a href="#layers">九层架构</a><a href="#agent">Agent</a><a href="#data">数据</a><a href="#state">状态</a><a href="#economics">模型与额度</a><a href="#community">发布社区</a><a href="#panorama">全景图</a><a href="#risks">风险</a><a href="#tobe">To‑Be</a><a href="#trace">证据索引</a>
+  </nav>
+
+  <main>
+    <section id="verdict">
+      <div class="section-head"><div class="section-num">01 / VERDICT</div><div><h2>它不是“文本生成游戏”，而是一条 AI 游戏生产线</h2><p>核心壁垒不只在生成，而在 Agent、项目状态、资产、构建、版本、额度与分发之间的编排。</p></div></div>
+      <div class="summary"><strong>产品本质：</strong>AI 编码编排器（Rosie）+ 项目文件工作区 + 资产与运行时预览 + 版本/额度系统 + 发布与社区分发。</div>
+      <div class="grid g4" style="margin-top:18px">
+        <div class="card"><div class="eyebrow">REAL RUN</div><div class="metric">7 <small>steps</small></div><p>本次 Rosie 可见工具步骤</p></div>
+        <div class="card"><div class="eyebrow">ACTUAL COST</div><div class="metric">500 <small>credits</small></div><p>一次低范围文本修改实测</p></div>
+        <div class="card"><div class="eyebrow">PROJECT ASSETS</div><div class="metric">4 <small>WebP</small></div><p>模板初始化后可见资产</p></div>
+        <div class="card"><div class="eyebrow">VISIBLE MODELS</div><div class="metric">9 <small>options</small></div><p>页面可选模型/路由入口</p></div>
+      </div>
+    </section>
+
+    <section id="journey">
+      <div class="section-head"><div class="section-num">02 / JOURNEY</div><div><h2>端到端闭环</h2><p>社区不是末端画廊，而是发现、游玩、分享与 Remix 回流到创作的增长环。</p></div></div>
+      <div class="flow">
+        <div class="node"><b>1 创意</b><small>自由 Prompt 或模板</small></div><div class="node"><b>2 资产</b><small>NEXT 后开始准备</small></div><div class="node"><b>3 身份</b><small>登录与条款</small></div><div class="node"><b>4 项目</b><small>稳定 edit URL</small></div><div class="node"><b>5 Rosie</b><small>读、改、验证</small></div><div class="node"><b>6 预览</b><small>构建与试玩</small></div><div class="node"><b>7 版本</b><small>历史与额度</small></div><div class="node"><b>8 发布</b><small>元数据与 URL</small></div><div class="node"><b>9 社区</b><small>Play / Remix / Tip</small></div>
+      </div>
+      <div class="table-wrap" style="margin-top:18px"><table><thead><tr><th>阶段</th><th>系统承诺</th><th>真实观察</th><th>证据</th></tr></thead><tbody>
+        <tr><td>初始化</td><td>快速从模板起步</td><td>最终创建前就出现 4 个资产准备槽位</td><td><span class="evidence ev-confirmed">已确认</span> S03–S04</td></tr>
+        <tr><td>AI 修改</td><td>自然语言直接改变游戏</td><td>Rosie 列目录、读 3 个文件、改同一文件两次、验证</td><td><span class="evidence ev-confirmed">已确认</span> S18 / S20</td></tr>
+        <tr><td>预览</td><td>即时看到结果</td><td>Agent 回复后仍需“Loading latest changes”再到稳定态</td><td><span class="evidence ev-confirmed">已确认</span> S19 / S19a</td></tr>
+        <tr><td>分发</td><td>发布后可分享与游玩</td><td>未发布时 Share 明确阻断；公开页含互动与 Remix</td><td><span class="evidence ev-confirmed">已确认</span> S05 / S23 / S24</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="screens">
+      <div class="section-head"><div class="section-num">03 / SCREEN EVIDENCE</div><div><h2>核心页面证据</h2><p>下列截图来自本次真实会话；附图说明只陈述页面可见事实。</p></div></div>
+      <div class="shot-grid">
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S01-Rosebud首页工作台.png" alt="Rosebud 首页工作台"><figcaption><b>S01</b>首页同时提供创意输入、图片上传、模型选择和 Create。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S03-游戏模板选择.png" alt="游戏模板选择"><figcaption><b>S03</b>模板选择覆盖 Interactive Story、RPG、多人 Obby 等游戏形态。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S07-登录后资产准备进度.png" alt="登录后资产准备"><figcaption><b>S07</b>创建项目流程包含资产准备进度与资产槽位。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S12-桌面版Chat与Assets双栏.png" alt="Chat 与 Assets 双栏"><figcaption><b>S12</b>桌面编辑器把 Agent 对话、游戏预览和资产管理放在同一工作区。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S10a-编辑器预览加载结果.png" alt="编辑器预览加载结果"><figcaption><b>S10a</b>嵌入式运行时加载后可直接试玩，带调试、录制与全屏控制。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S13-代码编辑与文件树.png" alt="代码编辑与文件树"><figcaption><b>S13</b>代码入口显示升级门槛，同时可见项目文件树与部分项目指导。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S20-Rosie七步工作日志.png" alt="Rosie 七步工作日志"><figcaption><b>S20</b>工具日志显示目录、读取、编辑与验证等步骤。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S19a-修改后预览稳定状态.png" alt="修改后稳定预览"><figcaption><b>S19a</b>稳定预览中出现目标标题“Choose your approach”。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S22-单次修改额度消耗.png" alt="单次修改额度消耗"><figcaption><b>S22</b>本次低范围修改显示消耗 500 credits。</figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S23-发布确认与元数据表单.png" alt="发布表单"><figcaption><b>S23</b>Publish 进入元数据与公开地址确认环节；本次未最终发布。</figcaption></figure>
+      </div>
+    </section>
+
+    <section id="layers">
+      <div class="section-head"><div class="section-num">04 / LAYERS</div><div><h2>九层产品架构</h2><p>越往下越接近平台能力。内部基础设施缺少直接证据，因此明确标注为推断。</p></div></div>
+      <div class="layers">
+        <div class="layer"><div class="ln">L1</div><b>用户与渠道</b><p>匿名访客、创作者、玩家、Remixer；Create、Play、公开 URL。</p><span class="evidence ev-confirmed">已确认</span></div>
+        <div class="layer"><div class="ln">L2</div><b>交互工作台</b><p>首页 Prompt、模板向导、Chat、Preview、Assets、Code、设置、历史、发布/分享。</p><span class="evidence ev-confirmed">已确认</span></div>
+        <div class="layer"><div class="ln">L3</div><b>产品应用</b><p>游戏生成、AI 编码、资产管理、运行时预览、公开游戏页、社区发现。</p><span class="evidence ev-confirmed">已确认</span></div>
+        <div class="layer"><div class="ln">L4</div><b>Agent 编排</b><p>Rosie、可见执行步骤与下一步建议；运行协调器边界未知。</p><span class="evidence ev-inferred">混合证据</span></div>
+        <div class="layer"><div class="ln">L5</div><b>工具与服务</b><p>列目录、读/改文件、验证；构建、资产、版本、额度、发布服务。</p><span class="evidence ev-inferred">混合证据</span></div>
+        <div class="layer"><div class="ln">L6</div><b>模型网关</b><p>Rosie、Claude、Gemini、GPT、Grok 选择器；实际路由与降级策略未知。</p><span class="evidence ev-inferred">混合证据</span></div>
+        <div class="layer"><div class="ln">L7</div><b>上下文与数据</b><p>User、Project、File、Asset、AgentRun、Version、Build、Credit、Publication。</p><span class="evidence ev-inferred">实体确认 / 关系推断</span></div>
+        <div class="layer"><div class="ln">L8</div><b>模板与知识资产</b><p>模板、社区作品、项目 agents.md、初始代码/视觉资产与分类元数据。</p><span class="evidence ev-confirmed">已确认</span></div>
+        <div class="layer"><div class="ln">L9</div><b>基础设施与治理</b><p>Auth、iframe、托管/CDN、支付/套餐；队列、监控、审计与风控实现未知。</p><span class="evidence ev-inferred">部分推断</span></div>
+      </div>
+    </section>
+
+    <section id="agent">
+      <div class="section-head"><div class="section-num">05 / AGENT</div><div><h2>Rosie 是唯一被页面直接命名的 Agent</h2><p>资产生成、构建、发布等只作为服务角色描述，避免把普通后台能力过度人格化。</p></div></div>
+      <div class="grid g3">
+        <div class="card"><h3>输入契约</h3><p>自由文本 Prompt、图片/截图、所选模型、当前项目上下文和项目级指导。</p></div>
+        <div class="card"><h3>工具契约</h3><p>本次可见：列目录、读取文件、编辑文件、项目验证。其参数与隐藏调用未知。</p></div>
+        <div class="card"><h3>输出契约</h3><p>文件变更、验证结果、自然语言摘要、建议下一步与 Credits 消耗。</p></div>
+      </div>
+      <div class="diagram" style="margin-top:18px">
+        <svg viewBox="0 0 1120 390" role="img" aria-label="Rosie Agent 工具与上下文关系图">
+          <defs><marker id="arrowG" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#65e6b4"/></marker><marker id="arrowA" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#ffc56b"/></marker></defs>
+          <rect class="svg-box" x="40" y="40" rx="14" width="210" height="82"/><text class="svg-title" x="60" y="72">用户输入</text><text class="svg-copy" x="60" y="98">Prompt · 图片 · 截图</text>
+          <rect class="svg-box" x="40" y="260" rx="14" width="210" height="82"/><text class="svg-title" x="60" y="292">项目上下文</text><text class="svg-copy" x="60" y="318">文件 · 资产 · agents.md</text>
+          <rect x="392" y="130" rx="26" width="250" height="126" fill="#39285e" stroke="#a574ff"/><text x="517" y="181" text-anchor="middle" fill="#fff" font-size="24" font-weight="800">Rosie</text><text x="517" y="211" text-anchor="middle" fill="#c8b9e7" font-size="12">计划 · 执行 · 验证 · 总结</text>
+          <rect class="svg-box" x="780" y="26" rx="14" width="265" height="64"/><text class="svg-title" x="800" y="55">项目工具</text><text class="svg-copy" x="800" y="76">list · read · edit · validate</text>
+          <rect class="svg-box" x="780" y="120" rx="14" width="265" height="64"/><text class="svg-title" x="800" y="149">项目文件与版本</text><text class="svg-copy" x="800" y="170">working state · snapshot</text>
+          <rect class="svg-box" x="780" y="214" rx="14" width="265" height="64"/><text class="svg-title" x="800" y="243">预览运行时</text><text class="svg-copy" x="800" y="264">build · load · play</text>
+          <rect class="svg-box" x="780" y="308" rx="14" width="265" height="64"/><text class="svg-title" x="800" y="337">响应与额度</text><text class="svg-copy" x="800" y="358">summary · next moves · credits</text>
+          <path class="svg-confirm" d="M250 82 C320 82 325 155 392 168"/><path class="svg-confirm" d="M250 300 C320 300 330 238 392 220"/><path class="svg-confirm" d="M642 170 C700 130 720 80 780 58"/><path class="svg-confirm" d="M780 152 C720 152 700 180 642 188"/><path class="svg-confirm" d="M642 210 C710 220 720 236 780 246"/><path class="svg-confirm" d="M642 232 C710 286 720 326 780 340"/>
+        </svg>
+      </div>
+      <div class="callout" style="margin-top:16px"><strong>边界：</strong>可见的 <code>agents.md</code> 是项目级指导，不是 Rosebud 官方系统 Prompt；本报告不声称获得隐藏源码、内部思维链或真实供应商路由。</div>
+    </section>
+
+    <section id="data">
+      <div class="section-head"><div class="section-num">06 / DATA</div><div><h2>真正的系统中枢是跨对象可追踪性</h2><p>Prompt 只是入口。可靠生产要求 Project、Run、ToolStep、Version、Build、Credit 和 Publication 能互相追溯。</p></div></div>
+      <div class="table-wrap"><table><thead><tr><th>实体</th><th>建议主键/字段</th><th>与谁关联</th><th>证据判断</th></tr></thead><tbody>
+        <tr><td>Project</td><td>project_id, owner, name, template, status</td><td>File / Asset / Version / Publication</td><td><span class="evidence ev-confirmed">存在确认</span></td></tr>
+        <tr><td>AgentRun</td><td>run_id, prompt, model_option, state, timing</td><td>ToolStep / Validation / Build / Credit</td><td><span class="evidence ev-inferred">关系推断</span></td></tr>
+        <tr><td>Version</td><td>version_id, parent_id, title, diff_summary</td><td>Run / Project / Build</td><td><span class="evidence ev-confirmed">存在确认</span></td></tr>
+        <tr><td>PreviewBuild</td><td>build_id, version_id, state, runtime_url</td><td>Run / Validation / Publication</td><td><span class="evidence ev-inferred">字段建议</span></td></tr>
+        <tr><td>CreditLedger</td><td>ledger_id, reserved, actual, refunded</td><td>User / Run / pricing_snapshot</td><td><span class="evidence ev-confirmed">计量确认</span></td></tr>
+        <tr><td>Publication</td><td>publication_id, build_id, slug, visibility, rights</td><td>Project / RemixLineage</td><td><span class="evidence ev-inferred">关系推断</span></td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="state">
+      <div class="section-head"><div class="section-num">07 / STATE</div><div><h2>“Agent 已完成”不等于“用户已经能玩”</h2><p>这是本次取证最关键的系统级断点。</p></div></div>
+      <div class="compare">
+        <div class="card"><span class="evidence ev-confirmed">AS‑IS 可见</span><h3 style="margin-top:14px">双完成点</h3><div class="code">输入 → Rosie 执行 → 验证 → 回复完成
+                         ↓
+             Loading latest changes
+                         ↓
+                    预览稳定</div><ul class="list"><li>回复先于预览完成。</li><li>黑屏、旧构建或加载中容易被误判。</li><li>重试可能造成重复消耗。</li></ul></div>
+        <div class="bridge">→</div>
+        <div class="card"><span class="evidence ev-proposed">TO‑BE 建议</span><h3 style="margin-top:14px">统一 AgentRun</h3><div class="code">waiting_input → planning → executing
+→ validating → previewing → completed
+                         ↘ failed / handoff</div><ul class="list"><li>最终完成由 PreviewBuild 稳定态决定。</li><li>验证凭证、构建 ID、版本与额度绑定。</li><li>失败保留上一个可运行版本。</li></ul></div>
+      </div>
+    </section>
+
+    <section id="economics">
+      <div class="section-head"><div class="section-num">08 / MODEL & CREDITS</div><div><h2>模型选择可见，真实路由不可见</h2><p>UI 提供品牌化模型入口，但不能据此断言后端一对一路由。</p></div></div>
+      <div class="grid g3">
+        <div class="card"><h3>页面事实</h3><p>可见 Rosie、Claude Sonnet/Opus、Gemini Pro/Flash、GPT Terra/Sol、GPT‑5.6 Luna、Grok 4.5。</p></div>
+        <div class="card"><h3>成本冲突</h3><p>Rosie 提示通常约 6,000 credits；本次小改动实际消耗 500 credits。</p></div>
+        <div class="card"><h3>目标机制</h3><p>提交前给出最小/常见/上限；运行中预留；完成后按步骤归因；失败明确退款规则。</p></div>
+      </div>
+    </section>
+
+    <section id="community">
+      <div class="section-head"><div class="section-num">09 / DISTRIBUTION</div><div><h2>发布页把“作品”转为“可增长内容”</h2><p>公开页连接游玩、互动、Remix、打赏与推荐，但也把版权和治理风险推到核心路径。</p></div></div>
+      <div class="grid g4"><div class="card"><h3>Publish</h3><p>项目元数据与公开地址。</p></div><div class="card"><h3>Play</h3><p>iframe 运行时和全屏试玩。</p></div><div class="card"><h3>Community</h3><p>点赞、评论、作者、推荐。</p></div><div class="card"><h3>Re-creation</h3><p>Remix 回流到新项目，Tip 支持创作者经济。</p></div></div>
+    </section>
+
+    <section id="panorama">
+      <div class="section-head"><div class="section-num">10 / PANORAMA</div><div><h2>产品全景架构图</h2><p>实线为已确认，虚线为推断，点线为目标建议。横向滚动可查看完整图。</p></div></div>
+      <div class="diagram">
+        <svg viewBox="0 0 1240 760" role="img" aria-label="Rosebud AI 产品全景架构图">
+          <defs><marker id="arrowC" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="6" markerHeight="6" orient="auto"><path d="M0 0L10 5L0 10z" fill="#65d8ff"/></marker></defs>
+          <text x="34" y="28" fill="#a574ff" font-size="12" font-weight="800">CHANNEL → WORKBENCH → AGENT → TOOLS → RUNTIME → DISTRIBUTION</text>
+          <rect x="20" y="52" width="1200" height="78" rx="15" fill="#131126" stroke="#2d2949"/><text class="svg-title" x="40" y="78">L1 / 用户与渠道</text><rect class="svg-box" x="190" y="70" width="170" height="42" rx="10"/><text class="svg-copy" x="210" y="96">匿名访客 / 创作者</text><rect class="svg-box" x="385" y="70" width="170" height="42" rx="10"/><text class="svg-copy" x="405" y="96">玩家 / Remixer</text><rect class="svg-box" x="580" y="70" width="170" height="42" rx="10"/><text class="svg-copy" x="600" y="96">Create / Play</text><rect class="svg-box" x="775" y="70" width="200" height="42" rx="10"/><text class="svg-copy" x="795" y="96">edit URL / public URL</text>
+          <rect x="20" y="142" width="1200" height="92" rx="15" fill="#131126" stroke="#2d2949"/><text class="svg-title" x="40" y="169">L2–3 / 交互与应用</text><rect class="svg-box" x="190" y="162" width="145" height="50" rx="10"/><text class="svg-copy" x="210" y="185">首页 Prompt</text><text class="svg-copy" x="210" y="201">模板向导</text><rect class="svg-box" x="356" y="162" width="155" height="50" rx="10"/><text class="svg-copy" x="376" y="185">Chat + Preview</text><text class="svg-copy" x="376" y="201">Assets + Code</text><rect class="svg-box" x="532" y="162" width="150" height="50" rx="10"/><text class="svg-copy" x="552" y="185">设置 + 历史</text><text class="svg-copy" x="552" y="201">Publish + Share</text><rect class="svg-box" x="703" y="162" width="150" height="50" rx="10"/><text class="svg-copy" x="723" y="185">Play 发现</text><text class="svg-copy" x="723" y="201">公开游戏页</text><rect class="svg-box" x="874" y="162" width="170" height="50" rx="10"/><text class="svg-copy" x="894" y="185">Remix / Tip</text><text class="svg-copy" x="894" y="201">评论 / 推荐</text>
+          <rect x="20" y="246" width="1200" height="100" rx="15" fill="#18132d" stroke="#4c3a78"/><text class="svg-title" x="40" y="273">L4 / Agent 编排</text><rect x="250" y="268" width="210" height="58" rx="18" fill="#3a275f" stroke="#a574ff"/><text x="355" y="294" text-anchor="middle" fill="#fff" font-size="17" font-weight="800">Rosie</text><text x="355" y="314" text-anchor="middle" fill="#c8b9e7" font-size="11">计划 · 执行 · 验证 · 总结</text><rect class="svg-box" x="525" y="268" width="220" height="58" rx="14"/><text class="svg-title" x="545" y="294">Run Coordinator</text><text class="svg-copy" x="545" y="314">最小必要系统推断</text><rect class="svg-box" x="810" y="268" width="220" height="58" rx="14"/><text class="svg-title" x="830" y="294">Next-move Suggestion</text><text class="svg-copy" x="830" y="314">页面可见输出角色</text>
+          <rect x="20" y="358" width="1200" height="108" rx="15" fill="#131126" stroke="#2d2949"/><text class="svg-title" x="40" y="385">L5–6 / 工具、服务与模型</text><rect class="svg-box" x="190" y="382" width="165" height="60" rx="10"/><text class="svg-copy" x="210" y="406">list / read / edit</text><text class="svg-copy" x="210" y="426">validate</text><rect class="svg-box" x="376" y="382" width="165" height="60" rx="10"/><text class="svg-copy" x="396" y="406">Asset / Version</text><text class="svg-copy" x="396" y="426">Build / Preview</text><rect class="svg-box" x="562" y="382" width="165" height="60" rx="10"/><text class="svg-copy" x="582" y="406">Credit / Billing</text><text class="svg-copy" x="582" y="426">Publish / Share</text><rect class="svg-box" x="748" y="382" width="270" height="60" rx="10"/><text class="svg-copy" x="768" y="406">Rosie · Claude · Gemini</text><text class="svg-copy" x="768" y="426">GPT · Grok（实际路由未知）</text>
+          <rect x="20" y="478" width="1200" height="106" rx="15" fill="#131126" stroke="#2d2949"/><text class="svg-title" x="40" y="505">L7–8 / 上下文、数据与知识资产</text><rect class="svg-box" x="190" y="502" width="185" height="60" rx="10"/><text class="svg-copy" x="210" y="526">Project · File · Asset</text><text class="svg-copy" x="210" y="546">agents.md</text><rect class="svg-box" x="396" y="502" width="195" height="60" rx="10"/><text class="svg-copy" x="416" y="526">Run · ToolStep</text><text class="svg-copy" x="416" y="546">Validation · Build</text><rect class="svg-box" x="612" y="502" width="185" height="60" rx="10"/><text class="svg-copy" x="632" y="526">Version · Credit</text><text class="svg-copy" x="632" y="546">Publication · Remix</text><rect class="svg-box" x="818" y="502" width="200" height="60" rx="10"/><text class="svg-copy" x="838" y="526">Templates · Community</text><text class="svg-copy" x="838" y="546">Starter code/assets</text>
+          <rect x="20" y="596" width="1200" height="92" rx="15" fill="#131126" stroke="#2d2949"/><text class="svg-title" x="40" y="623">L9 / 基础设施与治理</text><rect class="svg-box" x="190" y="617" width="150" height="50" rx="10"/><text class="svg-copy" x="210" y="647">Auth / Identity</text><rect class="svg-box" x="362" y="617" width="160" height="50" rx="10"/><text class="svg-copy" x="382" y="647">Sandbox / iframe</text><rect class="svg-box" x="544" y="617" width="160" height="50" rx="10"/><text class="svg-copy" x="564" y="647">Hosting / CDN</text><rect class="svg-box" x="726" y="617" width="160" height="50" rx="10"/><text class="svg-copy" x="746" y="647">Plan / Payments</text><rect class="svg-box" x="908" y="617" width="180" height="50" rx="10"/><text class="svg-copy" x="928" y="640">Rights / Safety</text><text class="svg-copy" x="928" y="656">Audit / Monitoring</text>
+          <path class="svg-confirm" d="M665 112V162"/><path class="svg-confirm" d="M433 212C433 240 390 246 370 268"/><path class="svg-confirm" d="M355 326V382"/><path class="svg-infer" d="M635 326V382"/><path class="svg-infer" d="M635 442V502"/><path class="svg-infer" d="M918 562V617"/>
+          <text x="24" y="728" fill="#65e6b4" font-size="11">━━ 已确认</text><text x="132" y="728" fill="#ffc56b" font-size="11">┅┅ 合理推断</text><text x="260" y="728" fill="#65d8ff" font-size="11">┈┈ 目标建议</text><text x="24" y="750" fill="#807b96" font-size="10">注：图中内部服务边界与数据库关系为满足可见行为的最小推断，不代表官方实现。</text>
+        </svg>
+      </div>
+    </section>
+
+    <section id="risks">
+      <div class="section-head"><div class="section-num">11 / RISKS</div><div><h2>关键风险不是“能否生成”，而是“能否可信地交付”</h2><p>优先处理完成语义、权利治理与成本透明。</p></div></div>
+      <div class="grid g3">
+        <div class="card risk p0"><span class="evidence" style="background:#ff7b8b18;color:var(--red)">P0</span><h3 style="margin-top:12px">完成态错位</h3><p>Rosie 回复先于预览稳定，用户可能重复提交或误判结果。</p></div>
+        <div class="card risk p0"><span class="evidence" style="background:#ff7b8b18;color:var(--red)">P0</span><h3 style="margin-top:12px">版权与 Remix</h3><p>知名 IP 风格内容、商用权、Remix、Tip 与公开分发需要统一权利检查。</p></div>
+        <div class="card risk"><span class="evidence ev-inferred">P1</span><h3 style="margin-top:12px">额度不可预期</h3><p>常见提示与本次实耗差异大，缺少提交前区间和失败归因。</p></div>
+        <div class="card risk"><span class="evidence ev-inferred">P1</span><h3 style="margin-top:12px">变更证明不足</h3><p>“属性未变”与重载后数值变化冲突，缺少 diff、seed 和可复核断言。</p></div>
+        <div class="card risk"><span class="evidence ev-inferred">P1</span><h3 style="margin-top:12px">版本语义失真</h3><p>历史标题与实际小改动不一致，降低检索、回滚和审计可信度。</p></div>
+        <div class="card risk"><span class="evidence ev-inferred">P1</span><h3 style="margin-top:12px">项目指令污染</h3><p>项目级 agents.md 会影响 Agent 行为，Remix/外部内容可能带来指令注入。</p></div>
+      </div>
+    </section>
+
+    <section id="tobe">
+      <div class="section-head"><div class="section-num">12 / TO‑BE</div><div><h2>从“会改代码”升级为“可审计的 AI 生产系统”</h2><p>十项能力把即时生成转化为稳定、可控、可发布的工程闭环。</p></div></div>
+      <div class="grid g2">
+        <div class="card"><h3>01 统一 AgentRun</h3><p>计划、工具、验证、构建、版本和额度共用 run_id 与状态机。</p></div><div class="card"><h3>02 成本预检</h3><p>提交前展示模型、范围和 credits 最小/常见/上限。</p></div><div class="card"><h3>03 Diff 与契约</h3><p>显示 affected files、差异、不可变约束和一键回滚点。</p></div><div class="card"><h3>04 验证凭证</h3><p>输出机器可读 receipt，并加入 DOM、截图或试玩断言。</p></div><div class="card"><h3>05 PreviewBuild 门槛</h3><p>只有稳定构建且断言通过才标记最终完成。</p></div><div class="card"><h3>06 确定性回归</h3><p>为随机属性提供 seed，区分随机变化与逻辑回归。</p></div><div class="card"><h3>07 可信版本</h3><p>标题由 Prompt 与 diff 联合生成，显示父版本和验证结果。</p></div><div class="card"><h3>08 资产依赖图</h3><p>追踪代码—资产引用，局部失效与构建，避免无关重算。</p></div><div class="card"><h3>09 发布检查表</h3><p>权利、可见性、Remix、内容安全、移动端、构建与撤回。</p></div><div class="card"><h3>10 可追踪与幂等</h3><p>Run、Version、Build、Credit、Publication 互相可查，重试不重复收费。</p></div>
+      </div>
+    </section>
+
+    <section id="trace">
+      <div class="section-head"><div class="section-num">13 / TRACEABILITY</div><div><h2>证据索引</h2><p>可按等级筛选。每条结论都应能回到截图、实测操作或官方公开材料。</p></div></div>
+      <div class="toolbar"><button class="filter active" data-filter="all">全部</button><button class="filter" data-filter="confirmed">已确认</button><button class="filter" data-filter="inferred">合理推断</button><button class="filter" data-filter="proposed">目标建议</button></div>
+      <div class="table-wrap"><table id="trace-table"><thead><tr><th>ID</th><th>结论</th><th>来源</th><th>等级</th></tr></thead><tbody>
+        <tr class="trace-row" data-kind="confirmed"><td>E‑J‑003</td><td>NEXT 后、最终创建前开始资产准备</td><td>S03 / S04</td><td><span class="evidence ev-confirmed">已确认</span></td></tr>
+        <tr class="trace-row" data-kind="confirmed"><td>E‑J‑011</td><td>Rosie 通过项目工具读取、编辑并验证文件</td><td>S18 / S20</td><td><span class="evidence ev-confirmed">已确认</span></td></tr>
+        <tr class="trace-row" data-kind="confirmed"><td>E‑J‑013</td><td>Agent 回复完成早于预览稳定</td><td>S19 / S19a</td><td><span class="evidence ev-confirmed">已确认</span></td></tr>
+        <tr class="trace-row" data-kind="confirmed"><td>E‑J‑016</td><td>本次单次修改消耗 500 credits</td><td>S22</td><td><span class="evidence ev-confirmed">已确认</span></td></tr>
+        <tr class="trace-row" data-kind="confirmed"><td>E‑J‑018</td><td>未发布时 Share 要求先发布</td><td>S24</td><td><span class="evidence ev-confirmed">已确认</span></td></tr>
+        <tr class="trace-row" data-kind="confirmed"><td>E‑A‑002</td><td>项目存在 4 个 WebP 初始资产</td><td>S11</td><td><span class="evidence ev-confirmed">已确认</span></td></tr>
+        <tr class="trace-row" data-kind="inferred"><td>I‑01</td><td>需要 Run Coordinator 协调 Agent、验证和预览</td><td>为解释跨状态行为的最小假设</td><td><span class="evidence ev-inferred">推断</span></td></tr>
+        <tr class="trace-row" data-kind="inferred"><td>I‑02</td><td>PreviewBuild 应绑定某一版本或工作区快照</td><td>预览加载与版本行为</td><td><span class="evidence ev-inferred">推断</span></td></tr>
+        <tr class="trace-row" data-kind="proposed"><td>T‑01</td><td>最终完成由稳定 PreviewBuild 与验证凭证决定</td><td>目标架构</td><td><span class="evidence ev-proposed">建议</span></td></tr>
+        <tr class="trace-row" data-kind="proposed"><td>T‑02</td><td>提交前提供额度区间和变更范围预检</td><td>目标架构</td><td><span class="evidence ev-proposed">建议</span></td></tr>
+      </tbody></table></div>
+      <div class="card" style="margin-top:18px"><button class="copy-btn" data-copy="#sources">复制来源</button><h3>方法与来源</h3><div id="sources" class="code">现场取证：2026-08-19，Rosebud AI 首页、模板、登录后项目、Chat、Preview、Assets、Code、Version、Credits、Publish、Share 与公开游戏页。
+官方公开资料：https://www.play.rosebud.ai/ · Rosebud AI Interface Guide · Beginner Guide · Pricing & Subscription FAQs · 官方发布/嵌入文章。
+边界：未执行最终发布、分享、Remix、Tip、购买、升级、删除和版本恢复；不声称获得内部源码、数据库、思维链或官方系统 Prompt。</div></div>
+    </section>
+  </main>
+
+  <footer class="footer"><strong>Rosebud AI 产品全景架构 · 证据分层版</strong><br>拆解依据：真实页面操作 + 截图 + 官方公开材料。事实、推断与建议已分层呈现。</footer>
+</div>
+<script>
+  const filters=[...document.querySelectorAll('.filter')];
+  filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;document.querySelectorAll('.trace-row').forEach(row=>row.hidden=f!=='all'&&row.dataset.kind!==f)}));
+  document.querySelectorAll('[data-copy]').forEach(btn=>btn.addEventListener('click',async()=>{const node=document.querySelector(btn.dataset.copy);try{await navigator.clipboard.writeText(node.innerText);btn.textContent='已复制';setTimeout(()=>btn.textContent='复制来源',1400)}catch(e){btn.textContent='请手动复制'}}));
+</script>
+</body>
+</html>
