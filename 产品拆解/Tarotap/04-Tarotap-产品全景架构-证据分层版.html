@@ -1,0 +1,253 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Tarotap 产品全景架构｜证据分层版</title>
+  <style>
+    :root{--bg:#08070d;--panel:#11101a;--panel2:#171522;--line:#2d2941;--ink:#f6f2ff;--muted:#aaa4bb;--purple:#7b2cff;--violet:#aa7cff;--green:#71d59c;--gold:#e1bd6a;--blue:#73b7ff;--red:#ff7c86;--shadow:0 24px 70px rgba(0,0,0,.28)}
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(circle at 75% 0,#24113e 0,transparent 28%),linear-gradient(180deg,#0d0a15,#08070d 42%,#0b0911);color:var(--ink);font:15px/1.7 Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}a{color:inherit}header{min-height:78vh;padding:70px max(24px,calc((100vw - 1240px)/2));display:flex;flex-direction:column;justify-content:center;border-bottom:1px solid var(--line);position:relative;overflow:hidden}header:after{content:"✦";position:absolute;right:8%;top:14%;font-size:18rem;color:#8d52ff0c;transform:rotate(18deg)}.eyebrow{color:var(--violet);letter-spacing:.2em;font-size:.74rem;font-weight:800}.hero{font-family:Georgia,"Songti SC",serif;font-size:clamp(3.1rem,7vw,7.2rem);line-height:.95;max-width:1150px;margin:22px 0}.hero em{font-style:normal;color:var(--violet)}.lead{max-width:1080px;font-size:clamp(1rem,1.6vw,1.35rem);color:#d9d4e4}.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:24px}.chip,.tag,.btn{border:1px solid var(--line);border-radius:999px;padding:5px 10px;font-size:.75rem;background:#16131f}.tag{display:inline-flex;font-weight:750}.confirmed{color:var(--green);border-color:#28553b}.inferred{color:var(--gold);border-color:#5a4825}.suggested{color:var(--blue);border-color:#244c72}.unknown{color:#b8b1c7;border-color:#40394f}nav{position:sticky;top:0;z-index:20;display:flex;gap:3px;overflow-x:auto;padding:10px max(16px,calc((100vw - 1240px)/2));background:#09080ddd;border-bottom:1px solid var(--line);backdrop-filter:blur(14px)}nav a{white-space:nowrap;text-decoration:none;padding:7px 10px;border-radius:8px;color:var(--muted);font-size:.76rem}nav a:hover{color:var(--ink);background:#1b1726}main{max-width:1240px;margin:auto;padding:26px 16px 100px}.panel{background:linear-gradient(150deg,#13111b,#0d0c13);border:1px solid var(--line);border-radius:24px;margin:26px 0;overflow:hidden;box-shadow:var(--shadow)}.head{padding:28px 30px 18px;border-bottom:1px solid var(--line)}h2{font-family:Georgia,"Songti SC",serif;font-size:clamp(1.8rem,3.5vw,3rem);line-height:1.15;margin:0 0 8px}h3{margin:.25rem 0 .45rem;font-size:1.05rem}p{margin:.35rem 0;color:#c9c3d3}.body{padding:26px 30px}.grid{display:grid;gap:14px}.two{grid-template-columns:repeat(2,minmax(0,1fr))}.three{grid-template-columns:repeat(3,minmax(0,1fr))}.four{grid-template-columns:repeat(4,minmax(0,1fr))}.card,.mini,.domain,.risk{background:#17141f;border:1px solid var(--line);border-radius:16px;padding:18px}.domain{min-height:145px}.domain b{font-size:1.05rem}.num{font-size:2.7rem;color:var(--violet);font-weight:800;line-height:1}.callout{border-left:3px solid var(--purple);padding:14px 18px;background:#171222;border-radius:0 12px 12px 0;margin:14px 0}.flow{display:grid;grid-template-columns:repeat(8,minmax(130px,1fr));gap:8px;overflow:auto;padding-bottom:5px}.step{background:#17141f;border:1px solid var(--line);border-radius:14px;padding:14px;position:relative;min-height:130px}.step:not(:last-child):after{content:"→";position:absolute;right:-10px;top:48%;z-index:2;color:var(--violet)}.step strong{display:block;color:var(--violet);font-size:.78rem}.table-wrap,.diagram-wrap{overflow:auto}table{width:100%;border-collapse:collapse;min-width:850px}th,td{text-align:left;padding:12px 13px;border-bottom:1px solid var(--line);vertical-align:top}th{color:var(--violet);font-size:.76rem;letter-spacing:.04em;background:#12101a;position:sticky;top:54px}td{color:#cfc9d8}.shots{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}.shot{display:block;text-decoration:none;background:#0c0b11;border:1px solid var(--line);border-radius:16px;overflow:hidden}.shot img{width:100%;display:block;aspect-ratio:16/9;object-fit:cover;object-position:top}.shot span{display:block;padding:11px 14px;color:#d8d2e2}.matrix{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}.matrix article{border:1px solid var(--line);border-radius:14px;padding:15px;background:#16131f}.io{margin-top:10px;padding-top:10px;border-top:1px dashed var(--line);font-size:.8rem;color:var(--muted)}.layers{display:grid;gap:8px}.layer{display:grid;grid-template-columns:140px 1fr auto;gap:16px;align-items:center;background:#15131d;border:1px solid var(--line);border-radius:13px;padding:12px 16px}.layer b{color:var(--violet)}.code{background:#08070c;border:1px solid var(--line);border-radius:16px;overflow:hidden}.code-head{display:flex;justify-content:space-between;align-items:center;padding:10px 14px;border-bottom:1px solid var(--line)}pre{margin:0;padding:16px;overflow:auto;color:#d8d0e4;font:12px/1.55 ui-monospace,SFMono-Regular,Menlo,monospace}.btn{color:var(--ink);cursor:pointer}.btn.active{background:var(--purple);border-color:var(--purple)}.controls{display:flex;gap:8px;flex-wrap:wrap;padding:18px 30px}.risk{border-top:3px solid var(--tone,var(--red))}.risk .impact{margin-top:10px;color:var(--muted);font-size:.82rem}.metric{display:flex;align-items:flex-end;gap:8px}.metric b{font-size:2rem;color:var(--green)}.panorama{min-width:1100px;width:100%;height:auto;background:#0b0a10;border:1px solid var(--line);border-radius:18px}.legend{display:flex;gap:12px;flex-wrap:wrap;margin-bottom:14px;color:var(--muted);font-size:.78rem}.line-key{display:inline-block;width:28px;border-top:2px solid var(--green);vertical-align:middle;margin-right:6px}.line-key.i{border-color:var(--gold);border-top-style:dashed}.line-key.s{border-color:var(--blue);border-top-style:dotted}.hidden{display:none}.note{font-size:.8rem;color:var(--muted)}footer{max-width:1240px;margin:auto;padding:0 16px 50px;color:#777080}@media(max-width:900px){.two,.three,.four,.shots,.matrix{grid-template-columns:1fr}.flow{grid-template-columns:repeat(8,190px)}.layer{grid-template-columns:1fr}.hero{font-size:3.25rem}header{min-height:70vh;padding-top:50px}.head,.body{padding-left:18px;padding-right:18px}}
+  </style>
+</head>
+<body>
+<header>
+  <div class="eyebrow">TAROTAP · EVIDENCE-LAYERED PRODUCT ARCHITECTURE</div>
+  <h1 class="hero">它不是抽牌站。<br><em>它是一套把焦虑入口、人格关系、仪式交互、长期记忆与专业服务连成闭环的 AI 灵性操作系统。</em></h1>
+  <p class="lead">一句话架构：Tarotap 用 SEO 与免费工具获客，用“问题→自动牌阵→主动抽牌→人格化解读”完成激活，用追问、Memory、Daily 与显化打卡留存，再把同一套牌义与生成能力封装为专业塔罗师 Studio。</p>
+  <div class="chips"><span class="chip">实测：1次匿名发展五牌阵</span><span class="chip">证据：30项 E-J/E-P/E-O/E-R</span><span class="chip">截图：8个核心表面</span><span class="chip">快照：2026-08-19</span></div>
+  <div class="chips"><span class="tag confirmed">已确认</span><span class="tag inferred">合理推断</span><span class="tag suggested">建议设计</span><span class="tag unknown">未知</span></div>
+</header>
+<nav>
+  <a href="#summary">摘要</a><a href="#evidence">证据</a><a href="#domains">功能域</a><a href="#e2e">端到端</a><a href="#layers">九层架构</a><a href="#agents">Agent关系</a><a href="#context">上下文</a><a href="#knowledge">知识资产</a><a href="#models">模型路由</a><a href="#tech">底层技术</a><a href="#entities">数据实体</a><a href="#sequence">时序</a><a href="#panorama">全景主图</a><a href="#asis">As-Is</a><a href="#tobe">To-Be</a><a href="#risks">风险</a><a href="#trace">追溯</a><a href="#unknowns">未知</a>
+</nav>
+<main>
+  <section id="summary" class="panel"><div class="head"><h2>1. 执行摘要</h2><p>Tarotap 的稀缺性不是“会写塔罗文案”，而是把消费者情绪产品和专业服务工具放进同一资产体系。</p></div><div class="body">
+    <div class="grid four">
+      <article class="card"><div class="num">01</div><h3>获客</h3><p>免费占卜、是非、爱情、牌阵、运势、部落格与多语言 SEO。</p></article>
+      <article class="card"><div class="num">02</div><h3>激活</h3><p>自然语言提问后自动路由牌阵，用户主动抽牌，降低专业门槛又保留仪式感。</p></article>
+      <article class="card"><div class="num">03</div><h3>留存</h3><p>追问、每位塔罗师独立 Memory、Daily、显化目标与连续打卡。</p></article>
+      <article class="card"><div class="num">04</div><h3>扩张</h3><p>Studio 把拆题、记牌、解读与收尾变成专业塔罗师 Copilot。</p></article>
+    </div>
+    <div class="callout"><b>核心洞察</b><p>消费者端产生人格、牌义、Reading 和记忆；Studio 复用牌义、问题结构化和生成能力。两条产品线共享知识与模型，但必须分离隐私、授权和商业条款。</p></div>
+  </div></section>
+
+  <section id="evidence" class="panel"><div class="head"><h2>2. 核心页面证据</h2><p>截图是取证快照，不证明不可见的后台实现。</p></div><div class="body">
+    <div class="shots">
+      <a class="shot" href="evidence/screenshots/S01-首页问题输入与塔罗师选择.png"><img src="evidence/screenshots/S01-首页问题输入与塔罗师选择.png" alt="首页问题输入"><span>S01 · 问题输入与7位人格</span></a>
+      <a class="shot" href="evidence/screenshots/S02-自动牌阵与抽牌界面.png"><img src="evidence/screenshots/S02-自动牌阵与抽牌界面.png" alt="自动牌阵与抽牌"><span>S02 · 自动发展五牌阵与主动抽牌</span></a>
+      <a class="shot" href="evidence/screenshots/S04-塔罗结果与五张牌.png"><img src="evidence/screenshots/S04-塔罗结果与五张牌.png" alt="塔罗结果"><span>S04 · 五张牌、牌位与正逆位</span></a>
+      <a class="shot" href="evidence/screenshots/S03-人格化AI解读正文.png"><img src="evidence/screenshots/S03-人格化AI解读正文.png" alt="人格化正文"><span>S03 · 月瑶人格化分段解读</span></a>
+      <a class="shot" href="evidence/screenshots/S05-解读追问反馈与分享入口.png"><img src="evidence/screenshots/S05-解读追问反馈与分享入口.png" alt="追问和分享"><span>S05 · 追问、自动抽牌、反馈、分享</span></a>
+      <a class="shot" href="evidence/screenshots/S06-追问触发登录拦截.png"><img src="evidence/screenshots/S06-追问触发登录拦截.png" alt="登录拦截"><span>S06 · 追问提交后登录拦截与 returnTo</span></a>
+      <a class="shot" href="evidence/screenshots/S07-Studio专业塔罗师工作台.png"><img src="evidence/screenshots/S07-Studio专业塔罗师工作台.png" alt="Studio"><span>S07 · 专业塔罗师 Studio 工作台</span></a>
+      <a class="shot" href="evidence/screenshots/S08-会员方案与权益.png"><img src="evidence/screenshots/S08-会员方案与权益.png" alt="会员方案"><span>S08 · Plus/Pro 权益与货币化</span></a>
+    </div>
+    <p class="note">完整证据字段见 <a href="evidence/evidence-ledger.md">evidence/evidence-ledger.md</a>。</p>
+  </div></section>
+
+  <section id="domains" class="panel"><div class="head"><h2>3. 16个产品功能域</h2><p>从流量入口到专业工作台，而非只看一次 Reading。</p></div><div class="body grid four">
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>SEO/内容</h3><p>多语言、部落格、专题牌阵、爱情与运势落地页。</p></article>
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>人格选择</h3><p>7位塔罗师，风格和会员权益差异化。</p></article>
+    <article class="domain"><span class="tag confirmed">实测</span><h3>问题输入</h3><p>匿名首轮、300字、推荐问题。</p></article>
+    <article class="domain"><span class="tag confirmed">实测</span><h3>自动牌阵</h3><p>自然语言问题→发展五牌阵；支持更换。</p></article>
+    <article class="domain"><span class="tag confirmed">实测</span><h3>抽牌/翻牌</h3><p>牌堆主动选择、牌位绑定、正逆位。</p></article>
+    <article class="domain"><span class="tag confirmed">实测</span><h3>AI解读</h3><p>快速模式、人格开场、跨牌关系、总结建议。</p></article>
+    <article class="domain"><span class="tag confirmed">入口确认</span><h3>连续追问</h3><p>登录后免费1次；自动抽牌可选。</p></article>
+    <article class="domain"><span class="tag confirmed">政策确认</span><h3>人格 Memory</h3><p>Opt-in、每位塔罗师隔离、可关闭/申请删除。</p></article>
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>Daily/运势</h3><p>每日、月度、年度、流年和季节入口。</p></article>
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>显化与打卡</h3><p>目标、视觉锚点、每日练习和连续天数。</p></article>
+    <article class="domain"><span class="tag confirmed">目标确认</span><h3>神谕卡创作</h3><p>凜的对话、AI图像资产和指引。</p></article>
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>自由抽牌</h3><p>1～8张、仅大阿卡纳、无需AI解读。</p></article>
+    <article class="domain"><span class="tag confirmed">公开产品</span><h3>Tarotap Studio</h3><p>拆题、记牌、逐题解读、追问和综合收尾。</p></article>
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>订阅与星币</h3><p>Plus/Pro、深度模型、追问、角色和Studio。</p></article>
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>真人服务</h3><p>创办人高客单视频/语音咨询。</p></article>
+    <article class="domain"><span class="tag confirmed">已确认</span><h3>反馈与分享</h3><p>帮助反馈、公开链接、再次占卜。</p></article>
+  </div></section>
+
+  <section id="e2e" class="panel"><div class="head"><h2>4. 端到端核心闭环</h2><p>五条流在同一个匿名 Reading 上对齐。</p></div><div class="body"><div class="flow">
+    <div class="step"><strong>1 用户流</strong>选择月瑶并输入低风险问题</div>
+    <div class="step"><strong>2 控制流</strong>创建 UUID，路由发展牌阵</div>
+    <div class="step"><strong>3 资产流</strong>牌阵定义5个语义位置</div>
+    <div class="step"><strong>4 交互流</strong>用户从牌堆主动选5张</div>
+    <div class="step"><strong>5 工具流</strong>卡牌/正逆位绑定位置</div>
+    <div class="step"><strong>6 模型流</strong>快速人格化解读生成</div>
+    <div class="step"><strong>7 数据流</strong>结果写入稳定 Reading URL</div>
+    <div class="step"><strong>8 下游</strong>追问需登录；反馈/分享/再占</div>
+  </div></div></section>
+
+  <section id="layers" class="panel"><div class="head"><h2>5. 九层产品架构</h2><p>没有证据的底层实现保持未知。</p></div><div class="body layers">
+    <div class="layer"><b>L1 用户与渠道</b><span>SEO用户、匿名用户、会员、专业塔罗师、真人咨询客户；Web、Android、iOS政策覆盖、社媒</span><span class="tag confirmed">已确认</span></div>
+    <div class="layer"><b>L2 交互与工作台</b><span>问题框、人格列表、牌阵卡、扇形牌堆、结果聊天、追问、Studio三栏工作台</span><span class="tag confirmed">已确认</span></div>
+    <div class="layer"><b>L3 产品应用</b><span>AI Reading、Yes/No、Love、Fortune、Manifestation、Oracle Art、Studio、Pricing</span><span class="tag confirmed">已确认</span></div>
+    <div class="layer"><b>L4 Agent与编排</b><span>Router、Deck Workflow、Interpretation、Follow-up、Memory、Studio Intake/Card/Copilot/Synthesis</span><span class="tag inferred">职能抽象</span></div>
+    <div class="layer"><b>L5 工具与服务</b><span>牌组/洗牌、牌义检索、语音解析、图像生成、分享、反馈、会话保存、权益/星币</span><span class="tag inferred">部分确认</span></div>
+    <div class="layer"><b>L6 模型接入与路由</b><span>快速文本模型、深度文本模型、图像模型、语音识别、分类/安全；厂商未知</span><span class="tag unknown">模型未知</span></div>
+    <div class="layer"><b>L7 上下文与数据</b><span>User、Reading、Spread、CardSelection、Result、FollowUp、PersonaMemory、StudioSession、Entitlement</span><span class="tag inferred">语义模型</span></div>
+    <div class="layer"><b>L8 知识与公共资产</b><span>78张牌义、经典/直觉体系、牌阵目录、人格设定、牌面与牌背、政策和安全规则</span><span class="tag confirmed">部分确认</span></div>
+    <div class="layer"><b>L9 基础设施与治理</b><span>Next.js、Supabase、Stripe、Apple IAP、Google营销脚本；日志、队列、监控未知</span><span class="tag confirmed">公开证据</span></div>
+  </div></section>
+
+  <section id="agents" class="panel"><div class="head"><h2>6. Agent / 工具 / 上下文关系</h2><p>“Agent”是职能抽象，不是官方部署声明。</p></div><div class="body matrix">
+    <article><span class="tag confirmed">实测职能</span><h3>Question & Spread Router</h3><p>问题→发展五牌阵/位置</p><div class="io">读取：question/persona/entitlement<br>写入：spread/positions</div></article>
+    <article><span class="tag confirmed">实测工具</span><h3>Deck Interaction</h3><p>主动选牌→牌位与正逆位</p><div class="io">读取：deck/spread<br>写入：card selections</div></article>
+    <article><span class="tag confirmed">实测职能</span><h3>Interpretation</h3><p>牌阵→人格化正文与行动建议</p><div class="io">读取：question/cards/persona<br>写入：result URL</div></article>
+    <article><span class="tag confirmed">入口确认</span><h3>Follow-up</h3><p>原Reading+追问；匿名被登录门拦截</p><div class="io">读取：reading context<br>输出：未执行</div></article>
+    <article><span class="tag confirmed">政策确认</span><h3>Memory Manager</h3><p>每位人格独立、opt-in 的跨Reading记忆</p><div class="io">读取：对话与提取主题<br>写入：persona memory</div></article>
+    <article><span class="tag confirmed">产品说明</span><h3>Studio Chain</h3><p>拆题→记牌→逐题解读→综合收尾</p><div class="io">输入：客户资料/牌面<br>输出：可复制专业解读</div></article>
+  </div></section>
+
+  <section id="context" class="panel"><div class="head"><h2>7. 全局上下文与状态</h2><p>最关键的不是“记得越多”，而是知道谁生产、谁消费、何时失效。</p></div><div class="body table-wrap"><table><thead><tr><th>上下文</th><th>生产者</th><th>消费者</th><th>更新时机</th><th>失效依赖</th><th>等级</th></tr></thead><tbody>
+    <tr><td>Question</td><td>用户</td><td>Router / Interpretation / Follow-up</td><td>发送或追问</td><td>用户修改</td><td><span class="tag confirmed">已确认</span></td></tr>
+    <tr><td>Spread / Positions</td><td>Router</td><td>Deck / Interpretation</td><td>问题路由</td><td>更换牌阵</td><td><span class="tag confirmed">语义确认</span></td></tr>
+    <tr><td>Card Selection</td><td>用户+Deck</td><td>Interpretation / Follow-up</td><td>逐张点击</td><td>再次占卜</td><td><span class="tag confirmed">已确认</span></td></tr>
+    <tr><td>Reading Result</td><td>Interpretation</td><td>结果页/Follow-up/Share</td><td>生成完成</td><td>删除或新版本</td><td><span class="tag confirmed">已确认</span></td></tr>
+    <tr><td>Persona Memory</td><td>Memory Manager</td><td>同人格未来Reading</td><td>用户开启后</td><td>关闭/删除/过期</td><td><span class="tag confirmed">政策确认</span></td></tr>
+    <tr><td>Studio Question List</td><td>Intake+塔罗师</td><td>Card Parser/Copilot</td><td>客户补充或编辑</td><td>问题变更</td><td><span class="tag inferred">产品语义</span></td></tr>
+    <tr><td>Entitlement / Credits</td><td>订阅/额度服务</td><td>模式、追问、Studio</td><td>登录、订阅、每日重置</td><td>到期/消耗/时区</td><td><span class="tag inferred">合理推断</span></td></tr>
+  </tbody></table></div></section>
+
+  <section id="knowledge" class="panel"><div class="head"><h2>8. 知识与资产层</h2><p>内容资产既服务消费者 Reading，也服务 Studio。</p></div><div class="body grid three">
+    <article class="mini"><span class="tag confirmed">已确认</span><h3>78张塔罗牌义</h3><p>Studio明确宣称内建牌义库；自由抽牌公开78张牌。</p></article>
+    <article class="mini"><span class="tag confirmed">已确认</span><h3>经典/直觉体系</h3><p>Studio允许两套体系切换，版本与来源未知。</p></article>
+    <article class="mini"><span class="tag confirmed">已确认</span><h3>牌阵目录</h3><p>发展、时间线、感情、是非、凯尔特十字、选项等。</p></article>
+    <article class="mini"><span class="tag inferred">合理推断</span><h3>人格风格卡</h3><p>称呼、语气、比喻、温度与禁用表达。</p></article>
+    <article class="mini"><span class="tag confirmed">已确认</span><h3>视觉资产</h3><p>牌面、牌背、专属牌组、音乐和神谕卡图像。</p></article>
+    <article class="mini"><span class="tag suggested">建议设计</span><h3>版本与来源</h3><p>给牌义、人格、Prompt和安全规则增加版本、引用与回滚。</p></article>
+  </div></section>
+
+  <section id="models" class="panel"><div class="head"><h2>9. 模型接入与路由</h2><p>页面证明能力，不证明真实模型厂商。</p></div><div class="body table-wrap"><table><thead><tr><th>任务</th><th>可见能力</th><th>合理路由</th><th>质量门</th><th>等级</th></tr></thead><tbody>
+    <tr><td>问题分类/牌阵路由</td><td>学习休息问题→发展五牌阵</td><td>规则+轻量分类模型或LLM</td><td>主题、时间范围、牌阵适配</td><td><span class="tag unknown">实现未知</span></td></tr>
+    <tr><td>快速解读</td><td>多段人格化正文</td><td>低延迟文本模型</td><td>牌面/牌位一致、安全、非决定论</td><td><span class="tag inferred">合理推断</span></td></tr>
+    <tr><td>深度洞察</td><td>会员专属、更强模型</td><td>高能力文本模型</td><td>跨牌关系、替代解释、不确定性</td><td><span class="tag confirmed">产品声明</span></td></tr>
+    <tr><td>Studio拆题</td><td>长文本/截图/语音→问题列表</td><td>多模态理解+结构化输出</td><td>遗漏、合并错误、可编辑确认</td><td><span class="tag confirmed">能力目标</span></td></tr>
+    <tr><td>牌名语音识别</td><td>牌名和正逆位结构化</td><td>ASR+词典/实体解析</td><td>卡名置信度、人工修正</td><td><span class="tag confirmed">能力目标</span></td></tr>
+    <tr><td>神谕卡图像</td><td>专属图像资产</td><td>图像生成模型</td><td>安全、风格、权属、失败重试</td><td><span class="tag unknown">模型未知</span></td></tr>
+  </tbody></table></div></section>
+
+  <section id="tech" class="panel"><div class="head"><h2>10. 可确认的底层技术</h2><p>只写公开页面和政策能证明的部分。</p></div><div class="body grid three">
+    <article class="mini"><span class="tag confirmed">公开资源</span><h3>Next.js</h3><p>`/_next/`脚本与 next meta 可见；内部部署未知。</p></article>
+    <article class="mini"><span class="tag confirmed">政策披露</span><h3>Supabase</h3><p>认证与数据库托管；具体表、区域和RLS未知。</p></article>
+    <article class="mini"><span class="tag confirmed">公开支付</span><h3>Stripe / Apple IAP</h3><p>网页Stripe；iOS订阅由Apple处理。</p></article>
+    <article class="mini"><span class="tag confirmed">公开脚本</span><h3>Google营销</h3><p>gtag/广告与归因；追踪治理以隐私政策为准。</p></article>
+    <article class="mini"><span class="tag confirmed">政策披露</span><h3>Memory Storage</h3><p>美国SOC 2服务器，传输/静态加密；供应商未披露。</p></article>
+    <article class="mini"><span class="tag unknown">未知</span><h3>队列与可观测性</h3><p>生成队列、缓存、日志、告警、成本追踪和恢复策略不可见。</p></article>
+  </div></section>
+
+  <section id="entities" class="panel"><div class="head"><h2>11. 语义数据实体</h2><p>是产品语义模型，不是官方数据库字段。</p></div><div class="body table-wrap"><table><thead><tr><th>实体</th><th>核心语义</th><th>关系</th><th>证据</th></tr></thead><tbody>
+    <tr><td>User / AnonymousSession</td><td>身份、语言、权益、时区</td><td>拥有Reading/Memory/Subscription</td><td>E-J-001/010/019</td></tr>
+    <tr><td>TarotPersona</td><td>名称、风格、权益、Memory命名空间</td><td>解释多个Reading</td><td>E-J-001/007、E-P-002</td></tr>
+    <tr><td>Reading</td><td>UUID、问题、模式、状态、结果URL</td><td>属于用户/匿名会话</td><td>E-J-002/006</td></tr>
+    <tr><td>Spread / Position</td><td>牌阵用途、有序位置</td><td>Reading选择1个Spread</td><td>E-J-002/003</td></tr>
+    <tr><td>CardSelection</td><td>卡名、正逆位、position</td><td>Reading拥有N张</td><td>E-J-004/006</td></tr>
+    <tr><td>InterpretationResult</td><td>分段正文、总结、建议、版本</td><td>Reading生成结果</td><td>E-J-007</td></tr>
+    <tr><td>FollowUp</td><td>追问、自动抽牌、状态</td><td>从属Reading</td><td>E-J-008/009</td></tr>
+    <tr><td>PersonaMemory</td><td>提取主题、偏好、同意状态</td><td>User×Persona隔离</td><td>E-P-002/003</td></tr>
+    <tr><td>StudioSession</td><td>客户资料、问题列表、逐题牌面和综合收尾</td><td>专业用户拥有多个Session</td><td>E-J-017/018</td></tr>
+    <tr><td>Entitlement/CreditLedger</td><td>方案、限制、每日重置、消耗</td><td>控制模式与工具</td><td>E-J-011/019</td></tr>
+  </tbody></table></div></section>
+
+  <section id="sequence" class="panel"><div class="head"><h2>12. 核心时序与状态机</h2><p>把“最后一张已选”与“结果已保存”分开。</p></div><div class="body"><div class="code"><div class="code-head"><b>Mermaid sequenceDiagram · 可复制</b><button class="btn copy" data-target="seq">复制</button></div><pre id="seq">sequenceDiagram
+  actor U as Anonymous User
+  participant UI as Tarotap UI
+  participant R as Spread Router
+  participant D as Deck Workflow
+  participant I as Interpretation
+  participant S as Reading Store
+  participant A as Auth
+  U->>UI: question + persona
+  UI->>R: create reading / classify
+  R-->>UI: development spread / 5 positions
+  loop five cards
+    U->>D: select card
+    D-->>UI: remaining count / bind position
+  end
+  D->>I: question + spread + cards
+  I-->>UI: quick reading blocks
+  I->>S: save result + stable URL
+  S-->>UI: reading completed
+  U->>UI: follow-up
+  UI->>A: anonymous requires login
+  A-->>U: login?returnTo=reading
+  Note over UI,S: unknown: draft follow-up survives login
+</pre></div></div></section>
+
+  <section id="panorama" class="panel"><div class="head"><h2>13. 产品全景架构主图</h2><p>绿色实线为已确认结果；金色虚线为合理推断；蓝色点线为建议设计。</p></div><div class="body"><div class="legend"><span><i class="line-key"></i>已确认</span><span><i class="line-key i"></i>合理推断</span><span><i class="line-key s"></i>建议设计</span></div><div class="diagram-wrap">
+    <svg class="panorama" viewBox="0 0 1180 760" xmlns="http://www.w3.org/2000/svg">
+      <defs><marker id="g" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#71d59c"/></marker><marker id="y" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 Z" fill="#e1bd6a"/></marker><style>.box{fill:#17141f;stroke:#3a3450;stroke-width:1.2}.title{fill:#f6f2ff;font:bold 15px sans-serif}.sub{fill:#aaa4bb;font:12px sans-serif}.lane{fill:#0f0d16;stroke:#2d2941}.lt{fill:#aa7cff;font:bold 17px sans-serif}.ok{stroke:#71d59c;stroke-width:2;fill:none;marker-end:url(#g)}.inf{stroke:#e1bd6a;stroke-width:2;stroke-dasharray:7 6;fill:none;marker-end:url(#y)}</style></defs>
+      <rect class="lane" x="20" y="20" width="1140" height="92" rx="18"/><text class="lt" x="42" y="49">用户与渠道</text><rect class="box" x="190" y="40" width="175" height="48" rx="11"/><text class="title" x="218" y="61">SEO / 免费工具</text><text class="sub" x="214" y="79">Blog · Love · Yes/No</text><rect class="box" x="400" y="40" width="160" height="48" rx="11"/><text class="title" x="437" y="61">匿名用户</text><text class="sub" x="425" y="79">首轮Reading</text><rect class="box" x="595" y="40" width="160" height="48" rx="11"/><text class="title" x="644" y="61">会员</text><text class="sub" x="617" y="79">Memory · Deep</text><rect class="box" x="790" y="40" width="175" height="48" rx="11"/><text class="title" x="820" y="61">专业塔罗师</text><text class="sub" x="820" y="79">Studio Copilot</text><rect class="box" x="1000" y="40" width="125" height="48" rx="11"/><text class="title" x="1025" y="61">真人客户</text>
+      <rect class="lane" x="20" y="128" width="1140" height="108" rx="18"/><text class="lt" x="42" y="158">产品应用</text><rect class="box" x="155" y="153" width="150" height="58" rx="11"/><text class="title" x="188" y="177">AI Reading</text><text class="sub" x="178" y="196">Question→Result</text><rect class="box" x="330" y="153" width="150" height="58" rx="11"/><text class="title" x="363" y="177">Fortune</text><text class="sub" x="349" y="196">Daily · Monthly</text><rect class="box" x="505" y="153" width="150" height="58" rx="11"/><text class="title" x="532" y="177">Manifestation</text><text class="sub" x="535" y="196">Goal · Streak</text><rect class="box" x="680" y="153" width="150" height="58" rx="11"/><text class="title" x="714" y="177">Oracle Art</text><text class="sub" x="718" y="196">Chat · Image</text><rect class="box" x="855" y="153" width="150" height="58" rx="11"/><text class="title" x="891" y="177">Studio</text><text class="sub" x="877" y="196">Professional Flow</text>
+      <rect class="lane" x="20" y="252" width="1140" height="120" rx="18"/><text class="lt" x="42" y="282">Agent与编排</text><rect class="box" x="130" y="283" width="165" height="64" rx="11"/><text class="title" x="156" y="307">Spread Router</text><text class="sub" x="152" y="328">question→spread</text><rect class="box" x="320" y="283" width="165" height="64" rx="11"/><text class="title" x="348" y="307">Deck Workflow</text><text class="sub" x="345" y="328">pick→position</text><rect class="box" x="510" y="283" width="165" height="64" rx="11"/><text class="title" x="538" y="307">Interpretation</text><text class="sub" x="540" y="328">persona reading</text><rect class="box" x="700" y="283" width="165" height="64" rx="11"/><text class="title" x="735" y="307">Memory</text><text class="sub" x="722" y="328">per persona opt-in</text><rect class="box" x="890" y="283" width="220" height="64" rx="11"/><text class="title" x="926" y="307">Studio Agent Chain</text><text class="sub" x="915" y="328">parse · cards · synthesize</text>
+      <rect class="lane" x="20" y="388" width="1140" height="112" rx="18"/><text class="lt" x="42" y="418">工具与模型</text><rect class="box" x="120" y="421" width="155" height="54" rx="11"/><text class="title" x="153" y="444">Deck Service</text><text class="sub" x="150" y="462">cards/orientation</text><rect class="box" x="300" y="421" width="155" height="54" rx="11"/><text class="title" x="330" y="444">Knowledge</text><text class="sub" x="323" y="462">78 cards / spreads</text><rect class="box" x="480" y="421" width="155" height="54" rx="11"/><text class="title" x="507" y="444">Model Gateway</text><text class="sub" x="504" y="462">quick/deep/vision</text><rect class="box" x="660" y="421" width="155" height="54" rx="11"/><text class="title" x="693" y="444">Speech Parser</text><text class="sub" x="686" y="462">Studio card names</text><rect class="box" x="840" y="421" width="155" height="54" rx="11"/><text class="title" x="872" y="444">Validator</text><text class="sub" x="862" y="462">建议：安全/一致性</text><rect class="box" x="1020" y="421" width="110" height="54" rx="11"/><text class="title" x="1041" y="444">Billing</text><text class="sub" x="1037" y="462">plan/credits</text>
+      <rect class="lane" x="20" y="516" width="1140" height="104" rx="18"/><text class="lt" x="42" y="546">数据与上下文</text><rect class="box" x="145" y="548" width="155" height="48" rx="11"/><text class="title" x="178" y="570">User/Profile</text><text class="sub" x="174" y="588">identity/locale</text><rect class="box" x="330" y="548" width="155" height="48" rx="11"/><text class="title" x="372" y="570">Reading</text><text class="sub" x="353" y="588">question/cards/result</text><rect class="box" x="515" y="548" width="155" height="48" rx="11"/><text class="title" x="548" y="570">Follow-up</text><text class="sub" x="545" y="588">context/autodraw</text><rect class="box" x="700" y="548" width="155" height="48" rx="11"/><text class="title" x="726" y="570">PersonaMemory</text><text class="sub" x="727" y="588">consent/version</text><rect class="box" x="885" y="548" width="185" height="48" rx="11"/><text class="title" x="925" y="570">StudioSession</text><text class="sub" x="912" y="588">client/questions/sections</text>
+      <rect class="lane" x="20" y="636" width="1140" height="96" rx="18"/><text class="lt" x="42" y="666">基础设施与治理</text><rect class="box" x="205" y="658" width="150" height="48" rx="11"/><text class="title" x="245" y="680">Next.js</text><rect class="box" x="385" y="658" width="150" height="48" rx="11"/><text class="title" x="423" y="680">Supabase</text><rect class="box" x="565" y="658" width="150" height="48" rx="11"/><text class="title" x="602" y="680">Stripe / IAP</text><rect class="box" x="745" y="658" width="150" height="48" rx="11"/><text class="title" x="778" y="680">Analytics</text><rect class="box" x="925" y="658" width="180" height="48" rx="11"/><text class="title" x="955" y="680">Privacy / Terms</text>
+      <path class="ok" d="M230 211 L212 283"/><path class="ok" d="M295 315 L320 315"/><path class="ok" d="M485 315 L510 315"/><path class="ok" d="M592 347 L592 421"/><path class="ok" d="M592 475 L592 548"/><path class="inf" d="M1000 347 L920 421"/><path class="inf" d="M1000 347 L977 548"/>
+    </svg>
+  </div></div></section>
+
+  <section id="asis" class="panel"><div class="head"><h2>14. As-Is：当前产品</h2><p>当前优势和缺口同时存在。</p></div><div class="body table-wrap"><table><thead><tr><th>维度</th><th>As-Is证据</th><th>问题</th></tr></thead><tbody>
+    <tr><td>激活</td><td>匿名首轮完成、自动牌阵、主动抽牌</td><td>牌阵理由不可见；抽牌缺回退</td></tr>
+    <tr><td>结果</td><td>稳定URL、人格化长文、跨牌综合</td><td>摘要与行动层级弱；保存状态不可见</td></tr>
+    <tr><td>转化</td><td>追问、深度、角色、Memory、Studio多层付费</td><td>追问在输入后才登录拦截</td></tr>
+    <tr><td>留存</td><td>Daily、运势、显化、Memory</td><td>可能强化依赖；同题重复缺冷却</td></tr>
+    <tr><td>专业化</td><td>Studio公开链路完整</td><td>客户数据同意与商业授权不清</td></tr>
+    <tr><td>全球化</td><td>多语言、多币种、跨地区服务</td><td>台湾/Japan/Singapore/UK/US口径混杂</td></tr>
+  </tbody></table></div></section>
+
+  <section id="tobe" class="panel"><div class="head"><h2>15. To-Be：建议架构</h2><p>把“神秘体验”与“可解释、可恢复、可治理”同时保留。</p></div><div class="body table-wrap"><table><thead><tr><th>维度</th><th>To-Be建议</th><th>验收指标</th></tr></thead><tbody>
+    <tr><td>透明路由</td><td>显示牌阵选择理由、候选与权益影响</td><td>更换率下降；牌阵理解率提升</td></tr>
+    <tr><td>统一生命周期</td><td>draft→spread_ready→drawing→generating→validating→saved→completed</td><td>generated_not_saved 可恢复；重复资产下降</td></tr>
+    <tr><td>结果质量门</td><td>牌面/牌位一致、安全、重复、行动性验证</td><td>牌面错误率、举报率、人工抽检通过率</td></tr>
+    <tr><td>Memory Receipt</td><td>展示本次使用的记忆，支持单条纠错/关闭/删除</td><td>记忆纠错完成率；投诉下降</td></tr>
+    <tr><td>追问转化</td><td>输入前说明登录门，登录后恢复草稿</td><td>草稿恢复率；追问转化率</td></tr>
+    <tr><td>Studio隐私</td><td>客户同意、截图脱敏、保留期、派生数据删除</td><td>敏感字段自动遮盖率；删除SLA</td></tr>
+    <tr><td>商业条款</td><td>Studio专属专业/商业授权和客户内容权利</td><td>条款冲突清零；企业转化</td></tr>
+    <tr><td>用户福祉</td><td>同题检测、冷却提示、依赖风险信号</td><td>短期重复占卜率下降；安全提示触达</td></tr>
+  </tbody></table></div></section>
+
+  <section id="risks" class="panel"><div class="head"><h2>16. 关键风险</h2><p>优先看会伤害信任、客户数据和真实完成度的风险。</p></div><div class="body grid three">
+    <article class="risk" style="--tone:var(--red)"><span class="tag confirmed">P0 · 条款冲突</span><h3>Studio商业使用</h3><p>专业工具鼓励客户服务，条款又限制未经协议的商业转售。</p><div class="impact">影响：专业用户合规与收入可信度</div></article>
+    <article class="risk" style="--tone:var(--red)"><span class="tag unknown">P0 · 客户隐私</span><h3>截图/语音中的第三方数据</h3><p>客户同意、脱敏、保留与派生删除机制未见。</p><div class="impact">影响：Studio上线风险与数据责任</div></article>
+    <article class="risk" style="--tone:var(--gold)"><span class="tag confirmed">P1 · 品牌张力</span><h3>“超准”与娱乐声明</h3><p>确定性营销与非专业、非决定论条款并存。</p><div class="impact">影响：信任、未成年人和监管叙事</div></article>
+    <article class="risk" style="--tone:var(--gold)"><span class="tag unknown">P1 · 状态一致性</span><h3>生成与保存</h3><p>没有可见生成版本、保存状态、重复请求或扣费幂等。</p><div class="impact">影响：结果丢失、重复计费、客服成本</div></article>
+    <article class="risk" style="--tone:var(--blue)"><span class="tag confirmed">P2 · UX</span><h3>追问后置登录门</h3><p>用户写完追问才被跳转登录，草稿是否恢复未知。</p><div class="impact">影响：转化中断与挫败</div></article>
+    <article class="risk" style="--tone:var(--blue)"><span class="tag confirmed">P2 · 全球化</span><h3>币种/时区/主体分散</h3><p>台湾重置、JPY订阅、S$咨询、英国主体、美国Memory。</p><div class="impact">影响：价格理解、税务和隐私解释</div></article>
+    <article class="risk" style="--tone:var(--blue)"><span class="tag suggested">P2 · 用户福祉</span><h3>依赖形成</h3><p>Daily、Memory、人格陪伴、再占和追问共同提高使用频率。</p><div class="impact">影响：过度占卜与品牌长期信任</div></article>
+    <article class="risk" style="--tone:var(--blue)"><span class="tag unknown">P2 · 公开结果</span><h3>分享权限</h3><p>稳定结果URL已确认，但公开范围、过期和撤回未验证。</p><div class="impact">影响：敏感问题被意外传播</div></article>
+    <article class="risk" style="--tone:var(--blue)"><span class="tag unknown">P2 · 资产权属</span><h3>AI神谕卡</h3><p>生成模型、训练来源、商用权和失败资产状态未知。</p><div class="impact">影响：用户预期和专业复用</div></article>
+  </div></section>
+
+  <section id="trace" class="panel"><div class="head"><h2>17. 架构组件—证据追溯</h2><p>筛选证据等级，避免把图形完整度当作事实完整度。</p></div><div class="controls"><button class="btn active" data-filter="all">全部</button><button class="btn" data-filter="confirmed">已确认</button><button class="btn" data-filter="inferred">合理推断</button><button class="btn" data-filter="suggested">建议设计</button><button class="btn" data-filter="unknown">未知</button></div><div class="table-wrap"><table id="traceTable"><thead><tr><th>组件/规则</th><th>支持证据</th><th>等级</th><th>置信度</th><th>层级</th></tr></thead><tbody>
+    <tr data-level="confirmed"><td>自动发展五牌阵</td><td>E-J-002/003</td><td><span class="tag confirmed">实测</span></td><td>100%</td><td>L3/L4</td></tr>
+    <tr data-level="confirmed"><td>主动抽5张与正逆位</td><td>E-J-004/006</td><td><span class="tag confirmed">实测</span></td><td>100%</td><td>L2/L5</td></tr>
+    <tr data-level="confirmed"><td>快速人格化解读</td><td>E-J-005/007</td><td><span class="tag confirmed">实测</span></td><td>100%</td><td>L4/L6</td></tr>
+    <tr data-level="confirmed"><td>稳定Reading URL</td><td>E-J-006</td><td><span class="tag confirmed">实测</span></td><td>100%</td><td>L3/L7</td></tr>
+    <tr data-level="confirmed"><td>追问登录门</td><td>E-J-008～010</td><td><span class="tag confirmed">实测</span></td><td>100%</td><td>L3/L9</td></tr>
+    <tr data-level="confirmed"><td>每人格独立Memory</td><td>E-P-002/003</td><td><span class="tag confirmed">政策确认</span></td><td>100%声明</td><td>L4/L7</td></tr>
+    <tr data-level="confirmed"><td>Studio功能链</td><td>E-J-017/018</td><td><span class="tag confirmed">产品说明</span></td><td>100%声明</td><td>L2-L8</td></tr>
+    <tr data-level="inferred"><td>Router独立职能</td><td>问题自动变为牌阵</td><td><span class="tag inferred">合理推断</span></td><td>90%</td><td>L4</td></tr>
+    <tr data-level="inferred"><td>Deck Service</td><td>牌堆、位置、正逆位</td><td><span class="tag inferred">语义服务</span></td><td>92%</td><td>L5</td></tr>
+    <tr data-level="inferred"><td>Credit Ledger</td><td>星币、次数、每日重置</td><td><span class="tag inferred">合理推断</span></td><td>88%</td><td>L5/L7</td></tr>
+    <tr data-level="suggested"><td>Reading Lifecycle</td><td>完成/保存/重试不可见</td><td><span class="tag suggested">建议设计</span></td><td>95%必要</td><td>L4/L7</td></tr>
+    <tr data-level="suggested"><td>Context Receipt</td><td>Memory敏感且不可见</td><td><span class="tag suggested">建议设计</span></td><td>95%必要</td><td>L3/L7/L9</td></tr>
+    <tr data-level="suggested"><td>Studio Consent Gateway</td><td>客户截图/语音</td><td><span class="tag suggested">建议设计</span></td><td>100%必要</td><td>L3/L9</td></tr>
+    <tr data-level="unknown"><td>真实大模型厂商</td><td>无公开证据</td><td><span class="tag unknown">未知</span></td><td>0%</td><td>L6</td></tr>
+    <tr data-level="unknown"><td>分享链接权限</td><td>按钮未点击</td><td><span class="tag unknown">未知</span></td><td>35%</td><td>L3/L7</td></tr>
+    <tr data-level="unknown"><td>Studio真实执行与扣费</td><td>未登录未运行</td><td><span class="tag unknown">未知</span></td><td>25%</td><td>L2-L7</td></tr>
+  </tbody></table></div></section>
+
+  <section id="unknowns" class="panel"><div class="head"><h2>18. 仍然无法确认的问题</h2><p>完整的图不等于真实后台全部可见。</p></div><div class="body grid three">
+    <article class="mini"><h3>真实Agent数量</h3><p>Router、Interpretation、Memory和Studio职能是独立Agent还是模板/工具链？</p></article>
+    <article class="mini"><h3>模型与Prompt</h3><p>厂商、模型名、温度、上下文窗口、Prompt版本和成本未知。</p></article>
+    <article class="mini"><h3>登录后的历史</h3><p>Reading列表、跨设备同步、删除和版本恢复未验证。</p></article>
+    <article class="mini"><h3>Memory真实效果</h3><p>是否影响未来结果、用户能否逐条查看和纠错未验证。</p></article>
+    <article class="mini"><h3>Studio运行</h3><p>上传、ASR、拆题、解读、复制、保存、失败和星币扣费未执行。</p></article>
+    <article class="mini"><h3>分享与撤回</h3><p>公开范围、过期、搜索引擎索引、撤回和删除传播未知。</p></article>
+  </div></section>
+</main>
+<footer>Tarotap 产品架构逆向分析 · 仅基于公开页面、政策与一次授权匿名实测 · 不代表官方架构或Prompt</footer>
+<script>
+  document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{const el=document.getElementById(btn.dataset.target);let ok=false;try{await navigator.clipboard.writeText(el.textContent);ok=true}catch(e){const r=document.createRange();r.selectNodeContents(el);const s=getSelection();s.removeAllRanges();s.addRange(r);ok=document.execCommand('copy')}const old=btn.textContent;btn.textContent=ok?'已复制':'请手动复制';setTimeout(()=>btn.textContent=old,1400)}));
+  const filters=[...document.querySelectorAll('[data-filter]')],rows=[...document.querySelectorAll('#traceTable tbody tr')];filters.forEach(btn=>btn.addEventListener('click',()=>{filters.forEach(x=>x.classList.remove('active'));btn.classList.add('active');const f=btn.dataset.filter;rows.forEach(r=>r.classList.toggle('hidden',f!=='all'&&r.dataset.level!==f))}));
+</script>
+</body>
+</html>
