@@ -1,0 +1,394 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>SeeTarot 产品全景架构｜证据分层版</title>
+  <style>
+    :root{
+      --bg:#0b0908;--panel:#15110f;--card:#1d1814;--card2:#272018;--line:#40342a;
+      --text:#f4ecdf;--muted:#b8aa9a;--ember:#df7341;--gold:#d9b66b;--green:#8fb589;
+      --amber:#e0a85d;--red:#d87672;--blue:#86a5b7;--purple:#aa8caf;--shadow:0 28px 80px rgba(0,0,0,.34)
+    }
+    *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--text);font:14px/1.7 -apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC","Microsoft YaHei",sans-serif}
+    body:before{content:"";position:fixed;inset:0;z-index:-2;background:radial-gradient(circle at 82% 2%,rgba(223,115,65,.14),transparent 30rem),radial-gradient(circle at 7% 22%,rgba(217,182,107,.08),transparent 32rem)}
+    body:after{content:"✦      ·        ✧          ·       ✦";position:fixed;top:38px;right:4vw;z-index:-1;color:rgba(244,236,223,.08);letter-spacing:2.2rem;font-size:18px;transform:rotate(-8deg)}
+    a{color:inherit}.wrap{width:min(1580px,calc(100% - 32px));margin:auto}header{padding:66px 0 40px;border-bottom:1px solid var(--line)}
+    .eyebrow{font:800 12px/1.4 ui-monospace,SFMono-Regular,Menlo,monospace;letter-spacing:.18em;color:var(--gold);text-transform:uppercase}
+    h1{margin:13px 0 17px;max-width:1320px;font:650 clamp(41px,6.2vw,86px)/1.02 Georgia,"Songti SC",serif;letter-spacing:-.045em}h1 em{font-style:normal;color:var(--ember)}
+    .lead{max-width:1180px;margin:0;color:#d5c9bb;font-size:clamp(17px,2vw,23px)}.meta,.legend,.chips{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+    .pill,.tag,.ev,.chip{display:inline-flex;align-items:center;gap:5px;border:1px solid var(--line);border-radius:999px;padding:4px 9px;background:rgba(255,255,255,.035);font-size:11px}
+    .tag.confirmed{color:#bce1b7;border-color:rgba(143,181,137,.48);background:rgba(143,181,137,.11)}.tag.inferred{color:#f2cb88;border-color:rgba(224,168,93,.48);background:rgba(224,168,93,.1)}
+    .tag.suggested{color:#bad8e8;border-color:rgba(134,165,183,.5);background:rgba(134,165,183,.1)}.tag.unknown{color:#c9beb2;border-style:dashed;background:rgba(184,170,154,.08)}
+    .ev{color:var(--gold);text-decoration:none;margin:2px 3px 2px 0}.ev:hover{border-color:var(--gold)}
+    nav{position:sticky;top:0;z-index:30;border-bottom:1px solid var(--line);background:rgba(11,9,8,.92);backdrop-filter:blur(18px)}nav .wrap{display:flex;gap:3px;overflow:auto;padding:9px 0}
+    nav a{white-space:nowrap;text-decoration:none;color:var(--muted);padding:7px 10px;border-radius:8px;font-size:12px}nav a:hover{color:var(--text);background:var(--card)}
+    main{padding:28px 0 90px}section{margin-bottom:28px;scroll-margin-top:68px}.panel{border:1px solid var(--line);border-radius:19px;background:rgba(21,17,15,.96);box-shadow:var(--shadow);overflow:hidden}
+    .head{padding:24px 24px 17px}.head h2{margin:0 0 6px;font:650 clamp(25px,3vw,38px)/1.18 Georgia,"Songti SC",serif;letter-spacing:-.025em}.head p{margin:0;color:var(--muted)}
+    .grid{display:grid;gap:14px;padding:0 24px 24px}.grid.two{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three{grid-template-columns:repeat(3,minmax(0,1fr))}.grid.four{grid-template-columns:repeat(4,minmax(0,1fr))}
+    .card,.mini{border:1px solid var(--line);border-radius:14px;padding:16px;background:var(--card)}.card h3,.mini h3{margin:0 0 8px}.card p,.mini p,.card ul,.mini ul{margin:0;color:#d1c6ba}.card ul,.mini ul{padding-left:18px}.card li+li,.mini li+li{margin-top:6px}
+    .callout{margin:0 24px 24px;border:1px solid rgba(224,168,93,.45);border-radius:13px;padding:15px 17px;background:rgba(224,168,93,.09);color:#f2d7aa}.callout.red{border-color:rgba(216,118,114,.5);background:rgba(216,118,114,.09);color:#f4c4c0}.callout.green{border-color:rgba(143,181,137,.45);background:rgba(143,181,137,.09);color:#cfe6cb}
+    .table-wrap{overflow:auto;border-top:1px solid var(--line)}table{width:100%;border-collapse:collapse;min-width:1120px}th,td{padding:12px 13px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);vertical-align:top}th{position:sticky;top:50px;z-index:5;background:#1c1713;color:#d8ccbe;text-align:left;font-size:11px;letter-spacing:.035em}td{color:#ded4c9}tr:hover td{background:rgba(255,255,255,.022)}
+    .kpi{font:900 39px/1 ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--gold);display:block;margin-bottom:8px}.num{font:850 12px ui-monospace,SFMono-Regular,Menlo,monospace;color:var(--ember)}
+    .domain-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;padding:0 24px 24px}.domain{border:1px solid var(--line);border-radius:13px;padding:14px;background:linear-gradient(145deg,var(--card),rgba(217,182,107,.025))}.domain h3{margin:6px 0 7px;font-size:15px}.domain p{margin:0;color:#cabeb1;font-size:12px}
+    .layers{padding:0 24px 24px;display:grid;gap:11px}.layer{border:1px solid var(--line);border-radius:14px;background:#18130f;overflow:hidden}.layer-head{display:flex;align-items:flex-start;gap:12px;padding:14px 15px;border-bottom:1px solid var(--line)}.layer-no{font:900 22px/1 ui-monospace,monospace;color:var(--ember)}.layer-head h3{margin:0 0 4px}.layer-head p{margin:0;color:var(--muted);font-size:12px}.components{display:flex;flex-wrap:wrap;gap:8px;padding:12px 14px}.component{border:1px solid var(--line);border-radius:10px;padding:8px 10px;background:var(--card);color:#e4d9cd}.component b{display:block;font-size:12px}.component small{color:var(--muted)}
+    .matrix-wrap{overflow:auto;border-top:1px solid var(--line)}.matrix{display:grid;grid-template-columns:repeat(7,minmax(180px,1fr));gap:25px;padding:20px;min-width:1460px}.matrix-node{position:relative;border:1px solid var(--line);border-radius:13px;background:var(--card);padding:13px}.matrix-node:not(:last-child):after{content:"→";position:absolute;right:-20px;top:47%;color:#8c7d6e}.matrix-node h3{margin:0 0 7px;font-size:14px}.matrix-node p{margin:0;color:#cbbfb3;font-size:12px}.matrix-node .out{margin-top:9px;padding-top:8px;border-top:1px dashed var(--line);color:var(--gold);font-size:11px}
+    .code-wrap{margin:0 24px 24px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0d0b0a}.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line);background:#1b1612}.code-wrap pre{margin:0;padding:16px;overflow:auto;max-height:650px;color:#e2d8cc;font:12px/1.58 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}.btn{cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--card2);color:var(--text)}.btn.active,.btn:hover{border-color:var(--gold)}.controls{display:flex;flex-wrap:wrap;gap:8px;padding:0 24px 18px}
+    .diagram-scroll{overflow:auto;padding:0 24px 24px}.diagram{min-width:1420px;border:1px solid var(--line);border-radius:16px;background:#0d0b0a;padding:15px}.diagram svg{display:block;width:100%;height:auto;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}.diagram .box{fill:#201913;stroke:#594838;stroke-width:1.4}.diagram .group{fill:#15100d;stroke:#40342a;stroke-width:1.3}.diagram .title{fill:#f4ecdf;font-size:17px;font-weight:800}.diagram .label{fill:#d6cabd;font-size:12px}.diagram .sub{fill:#a89583;font-size:10px}.diagram .confirmed-line{stroke:var(--green);stroke-width:2.4;fill:none}.diagram .inferred-line{stroke:var(--amber);stroke-width:2.2;stroke-dasharray:8 6;fill:none}.diagram .suggested-line{stroke:var(--blue);stroke-width:2.2;stroke-dasharray:2 6;fill:none}.diagram .arrow-label{fill:#f0e5d8;font-size:11px;font-weight:700;paint-order:stroke;stroke:#0d0b0a;stroke-width:5px;stroke-linejoin:round}.diagram .risk{fill:rgba(216,118,114,.13);stroke:var(--red);stroke-width:1.4}
+    .risk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 24px 24px}.risk{border:1px solid var(--line);border-left:4px solid var(--tone,var(--amber));border-radius:12px;padding:14px;background:var(--card)}.risk h3{margin:4px 0 7px}.risk p{margin:0;color:#d0c4b7}.risk .impact{margin-top:8px;color:var(--tone,var(--amber));font-size:12px}
+    .hidden{display:none!important}details.note{margin:0 24px 24px;border:1px solid var(--line);border-radius:12px;background:var(--card)}details.note summary{cursor:pointer;padding:13px 15px;font-weight:750}details.note .inside{padding:0 15px 15px;color:#d1c6ba}.toast{position:fixed;right:22px;bottom:22px;z-index:60;color:#17110d;background:var(--gold);border-radius:10px;padding:9px 12px;font-weight:750;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:none}
+    footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted)}code{color:#f0c983}
+    @media(max-width:1120px){.grid.four,.domain-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three,.risk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.two{grid-template-columns:1fr}}
+    @media(max-width:680px){.wrap{width:min(100% - 18px,1580px)}header{padding-top:44px}.grid.four,.grid.three,.grid.two,.domain-grid,.risk-grid{grid-template-columns:1fr;padding-left:15px;padding-right:15px}.head,.layers,.controls,.diagram-scroll{padding-left:15px;padding-right:15px}.callout,.code-wrap,details.note{margin-left:15px;margin-right:15px}.kpi{font-size:31px}}
+    @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.toast{transition:none}}
+  </style>
+</head>
+<body>
+  <header><div class="wrap">
+    <div class="eyebrow">SeeTarot · Evidence-Layered Product Architecture</div>
+    <h1>它不是会占卜的聊天框。<br><em>它是一间把问题、抽牌、揭示与记忆串成仪式的房间。</em></h1>
+    <p class="lead">一句话架构：SeeTarot 用专用交互编排、用户主动选牌、传统牌义与稳定声音、画像与阅读历史，把文本生成能力封装成持续的塔罗实践；当前最明显的架构缺口，是 Daily 页面、Reading 结果、日期口径和隐私政策没有共享一套可信的完成与治理事实源。</p>
+    <div class="meta"><span class="pill">实测：1 次 General / Three 完整闭环</span><span class="pill">证据：24 条 E-J / E-A / E-O / E-R</span><span class="pill">核心对象：Profile · Reading · Card · Reflection</span><span class="pill">快照：2026-08-19</span></div>
+    <div class="legend"><span class="tag confirmed">已确认</span><span class="tag inferred">合理推断</span><span class="tag suggested">建议设计</span><span class="tag unknown">未知</span></div>
+  </div></header>
+
+  <nav><div class="wrap">
+    <a href="#summary">摘要</a><a href="#evidence">证据</a><a href="#domains">功能域</a><a href="#e2e">端到端</a><a href="#layers">九层架构</a><a href="#agent-map">Agent关系</a><a href="#context">全局上下文</a><a href="#knowledge">知识资产</a><a href="#models">模型路由</a><a href="#technology">底层选型</a><a href="#entities">数据实体</a><a href="#sequence">时序图</a><a href="#panorama">全景主图</a><a href="#asis">As-Is</a><a href="#tobe">To-Be</a><a href="#risks">风险</a><a href="#trace">追溯</a><a href="#unknowns">未知</a>
+  </div></nav>
+
+  <main class="wrap">
+    <section id="summary" class="panel">
+      <div class="head"><h2>1. 执行摘要</h2><p>先说产品真正成立的地方，再说系统还没有证明的地方。</p></div>
+      <div class="grid four">
+        <article class="card"><span class="kpi">07</span><h3>问题意图</h3><p>General、Love、Career、Finances、As Feeling、As Action、Yes &amp; No。分类先于生成。</p></article>
+        <article class="card"><span class="kpi">03</span><h3>Oracle 阶段</h3><p>Intent → Spread → Question；之后才进入选牌、揭示和解读。</p></article>
+        <article class="card"><span class="kpi">19</span><h3>可选牌背</h3><p>三牌阵要求用户从 19 张牌背中主动选择 3 张，保留“我抽到它”的控制感。</p></article>
+        <article class="card"><span class="kpi">01</span><h3>关键架构矛盾</h3><p>Daily 一直显示 deck is turning，但 History 和 Reading Detail 已有完整结果。</p></article>
+      </div>
+      <div class="callout red"><b>不能得出的结论：</b>页面出现 AI 解读不等于存在多个真实 Agent；结果引用画像不等于后台拥有完整“记忆 Agent”；营销站确认 Vercel、GA4、Meta Pixel，也不证明产品 App 使用相同技术栈。</div>
+    </section>
+
+    <section id="evidence" class="panel">
+      <div class="head"><h2>2. 证据来源与缺口</h2><p>公开声明、账户内实测和架构推导分开记录。</p></div>
+      <div class="grid three">
+        <article class="mini"><h3>直接证据</h3><ul><li>官网、FAQ、About、营销站法律页面</li><li>注册/登录、Daily、Oracle、History、Profile</li><li>一次问题提交、三牌选择、逐张揭示与长文结果</li><li>独立 Reading URL、Reflection 与 Share 入口</li></ul></article>
+        <article class="mini"><h3>明确没有读取</h3><ul><li>Cookie、Token、密码和账户敏感值</li><li>隐藏 Prompt、思维链和内部 API</li><li>网络请求、模型 trace、数据库 schema</li><li>支付、订阅、删除、分享和反思写入结果</li></ul></article>
+        <article class="mini"><h3>证据提醒</h3><ul><li>官方声明只证明对外承诺，不自动证明运行时实现。</li><li>Agent 名称均为功能命名。</li><li>Daily 页面与 History 冲突必须并列保留。</li><li>画像只记录字段用途，不保留用户具体值。</li></ul></article>
+      </div>
+      <div class="table-wrap"><table><thead><tr><th>证据组</th><th>可复核事实</th><th>支持结论</th><th>边界</th></tr></thead><tbody>
+        <tr><td>E-J-001～006</td><td>Ask/Shuffle/Reveal、样例结构、免费/付费声明、注册登录门</td><td>定位、获客、账户前置</td><td>样例不等于实时生成</td></tr>
+        <tr><td>E-J-007～011</td><td>七意图、Single/Three/Celtic Cross、10～500 字、19 牌背、逐张揭示</td><td>核心工作流与交互状态</td><td>抽牌算法、失败和中断未知</td></tr>
+        <tr><td>E-A-001～003</td><td>Oracle 与 Daily 两种输出模板；结果融合画像语境</td><td>解读职能与模板路由</td><td>真实模型、Prompt、记忆窗口未知</td></tr>
+        <tr><td>E-J-012～017</td><td>Reading URL、History、Reflection、Profile、Daily 冲突、当前无商业化入口</td><td>数据资产、状态、画像、商业化</td><td>分享、写入、删除和订阅未执行</td></tr>
+        <tr><td>E-O-001～003 / E-R-001</td><td>美国居民定位、非专业建议、营销站供应商、App 政策入口错配</td><td>治理与技术边界</td><td>App 内部基础设施未知</td></tr>
+      </tbody></table></div>
+      <div class="chips" style="padding:0 24px 24px"><a class="ev" href="evidence/evidence-ledger.md">打开 24 条证据台账</a><a class="ev" href="https://www.seetarot.com/">官网</a><a class="ev" href="https://www.seetarot.com/about">About</a><a class="ev" href="https://www.seetarot.com/privacy">营销站 Privacy</a></div>
+    </section>
+
+    <section id="domains" class="panel">
+      <div class="head"><h2>3. 核心功能域</h2><p>从用户看到的仪式与账户空间出发，不从模型能力倒推产品。</p></div>
+      <div class="domain-grid">
+        <article class="domain"><span class="tag confirmed">已确认</span><h3>获客与定位</h3><p>强风格首页、十张样例、FAQ、About 与 App CTA。</p></article>
+        <article class="domain"><span class="tag confirmed">已确认</span><h3>账户与身份</h3><p>昵称、邮箱、密码注册；登录、退出和永久删除入口。</p></article>
+        <article class="domain"><span class="tag confirmed">字段确认</span><h3>用户画像</h3><p>显示名、时区、默认意图、可选出生日期；影响称呼、Daily 和星座织入。</p></article>
+        <article class="domain"><span class="tag confirmed">结果确认</span><h3>Daily</h3><p>单牌、今日解读、反思和 grounding practice；页面完成态异常。</p></article>
+        <article class="domain"><span class="tag confirmed">已确认</span><h3>Oracle Wizard</h3><p>七意图、三牌阵层级、问题约束与返回路径。</p></article>
+        <article class="domain"><span class="tag confirmed">已确认</span><h3>牌桌交互</h3><p>19 张牌背、选牌计数、Past/Present/Possible 槽位、逐张揭示。</p></article>
+        <article class="domain"><span class="tag confirmed">已确认</span><h3>AI 解读</h3><p>综合回应、逐位置解释、反思问题；Daily 使用另一模板。</p></article>
+        <article class="domain"><span class="tag confirmed">已确认</span><h3>Reading 资产</h3><p>独立 ID/URL、牌组、问题、长文、日期与类型。</p></article>
+        <article class="domain"><span class="tag confirmed">已确认</span><h3>History</h3><p>Oracle/Daily 混合列表、摘要、牌阵、意图与时间。</p></article>
+        <article class="domain"><span class="tag confirmed">入口确认</span><h3>Reflection</h3><p>每条 Reading 下 0～2000 字日志入口；写入和记忆影响未验证。</p></article>
+        <article class="domain"><span class="tag confirmed">入口确认</span><h3>Share</h3><p>结果页存在 Share the reading；权限与公开范围未知。</p></article>
+        <article class="domain"><span class="tag unknown">未知</span><h3>商业化</h3><p>FAQ 描述未来免费/付费层；当前 App 无 Price/Plan/Billing/Upgrade。</p></article>
+        <article class="domain"><span class="tag confirmed">声明确认</span><h3>隐私与伦理</h3><p>不用于训练、不做预测或专业建议；运行时强制机制未知。</p></article>
+        <article class="domain"><span class="tag confirmed">冲突事实</span><h3>状态与日期</h3><p>Daily/History 状态冲突；本地 8/19 与详情 8/18 并存。</p></article>
+        <article class="domain"><span class="tag inferred">合理推断</span><h3>记忆</h3><p>重复用户会被记住；Profile 与结果有上下文关联，跨 Reading 机制未知。</p></article>
+        <article class="domain"><span class="tag unknown">未知</span><h3>iOS / 地区扩展</h3><p>iOS Coming Soon；About 声明当前仅面向美国居民。</p></article>
+      </div>
+    </section>
+
+    <section id="e2e" class="panel">
+      <div class="head"><h2>4. 端到端功能流转表</h2><p>同一次 General / Three 阅读，同时追踪用户、编排、工具、数据与资产五条流。</p></div>
+      <div class="table-wrap"><table><thead><tr><th>步骤</th><th>用户交互</th><th>控制流</th><th>工具/服务流</th><th>数据与上下文</th><th>结果/资产</th><th>失败与确认</th><th>证据</th></tr></thead><tbody>
+        <tr><td>01 进入</td><td>登录账户，进入 Oracle</td><td>恢复用户会话</td><td>认证【推断】</td><td>User/Profile</td><td>账户空间</td><td>登录失败路径未测</td><td>E-J-005/006/016</td></tr>
+        <tr><td>02 选意图</td><td>选择 General</td><td>Wizard 进入 intent 已选</td><td>会话状态</td><td>intent=general</td><td>步骤进度</td><td>Back 可见</td><td>E-J-007</td></tr>
+        <tr><td>03 选牌阵</td><td>选择 Three</td><td>绑定三位置语义</td><td>牌阵规则</td><td>spread=three</td><td>Past/Present/Possible</td><td>Celtic Cross 不可用</td><td>E-J-008</td></tr>
+        <tr><td>04 提问题</td><td>输入开放问题并确认提交</td><td>校验长度，创建 run【推断】</td><td>问题校验</td><td>question + status</td><td>ReadingDraft</td><td>10～500 字；重复提交未知</td><td>E-J-009</td></tr>
+        <tr><td>05 选牌</td><td>从 19 张牌背选 3 张</td><td>剩余计数与位置推进</td><td>牌组/抽牌【推断】</td><td>card + orientation + position</td><td>三张 Card 引用</td><td>随机与幂等未知</td><td>E-J-010</td></tr>
+        <tr><td>06 揭示</td><td>逐张翻开三张牌</td><td>reveal 状态推进</td><td>展示状态</td><td>revealed=true</td><td>可见牌面</td><td>中断恢复未测</td><td>E-J-011</td></tr>
+        <tr><td>07 解读</td><td>读取完整结果</td><td>Oracle 解读职能生成与验证【推断】</td><td>文本模型【未知】</td><td>问题+牌+画像【推断】</td><td>五段结构化长文</td><td>安全拒绝/超时未测</td><td>E-A-001/002</td></tr>
+        <tr><td>08 持久化</td><td>打开 Keep this</td><td>保存并索引</td><td>Reading Store【推断】</td><td>readingId + createdAt + status</td><td>独立 URL</td><td>保存失败不可见</td><td>E-J-012/013</td></tr>
+        <tr><td>09 长期使用</td><td>历史、反思、分享、Daily</td><td>记忆/日志/Daily 职能【推断】</td><td>History/Reflection/Share</td><td>Reading + Reflection + DailyState</td><td>长期实践记录</td><td>Daily 状态与日期冲突</td><td>E-J-014～017</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="layers" class="panel">
+      <div class="head"><h2>5. 产品九层架构</h2><p>组件名是语义架构，不代表真实微服务、表名或厂商。</p></div>
+      <div class="layers">
+        <article class="layer"><div class="layer-head"><span class="layer-no">01</span><div><h3>用户与渠道层</h3><p>谁进入、从哪里进入、受到什么地域与资格边界。</p></div></div><div class="components"><span class="component"><b>美国居民用户</b><small>当前公开定位</small></span><span class="component"><b>营销站</b><small>获客与样例</small></span><span class="component"><b>Web App</b><small>当前主产品</small></span><span class="component"><b>iOS</b><small>Coming Soon</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">02</span><div><h3>交互与仪式层</h3><p>把通用文本生成塑造成“房间、牌桌与节奏”。</p></div></div><div class="components"><span class="component"><b>Landing / Sample</b><small>定位与预期</small></span><span class="component"><b>Daily</b><small>每日单牌</small></span><span class="component"><b>Oracle Wizard</b><small>三步配置</small></span><span class="component"><b>Card Table / Reveal</b><small>主动选择</small></span><span class="component"><b>Reading / History</b><small>结果与回访</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">03</span><div><h3>产品应用层</h3><p>围绕持续塔罗实践的业务域。</p></div></div><div class="components"><span class="component"><b>Account &amp; Profile</b><small>身份与画像</small></span><span class="component"><b>Oracle</b><small>自由问题</small></span><span class="component"><b>Daily Practice</b><small>日常习惯</small></span><span class="component"><b>Reading Library</b><small>历史资产</small></span><span class="component"><b>Reflection</b><small>用户日志</small></span><span class="component"><b>Share</b><small>传播入口</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">04</span><div><h3>Agent 与编排层</h3><p>职能可确认，真实 Agent 数量不可确认。</p></div></div><div class="components"><span class="component"><b>Oracle Workflow</b><small>合理推断</small></span><span class="component"><b>Daily Workflow</b><small>合理推断</small></span><span class="component"><b>Tarot Interpretation</b><small>功能确认</small></span><span class="component"><b>Memory / Reflection</b><small>职能推断</small></span><span class="component"><b>Reading Lifecycle</b><small>当前缺口</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">05</span><div><h3>工具与服务层</h3><p>把身份、牌组、画像、生成和保存变成可审计动作。</p></div></div><div class="components"><span class="component"><b>认证服务</b><small>能力需求</small></span><span class="component"><b>牌组/抽牌服务</b><small>算法未知</small></span><span class="component"><b>画像读取</b><small>最小化上下文</small></span><span class="component"><b>生成与校验</b><small>模型未知</small></span><span class="component"><b>Reading Store</b><small>结果确认</small></span><span class="component"><b>Share / Delete</b><small>入口确认</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">06</span><div><h3>模型接入与路由层</h3><p>页面证明文本生成结果，不证明厂商或路由实现。</p></div></div><div class="components"><span class="component"><b>Oracle Template</b><small>五段结构</small></span><span class="component"><b>Daily Template</b><small>三段结构</small></span><span class="component"><b>Safety Classification</b><small>建议设计</small></span><span class="component"><b>Provider Adapter</b><small>未知/建议</small></span><span class="component"><b>Fallback &amp; Retry</b><small>未知</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">07</span><div><h3>全局上下文与数据层</h3><p>状态、画像、阅读、日志和日期应该有清晰生产者。</p></div></div><div class="components"><span class="component"><b>UserProfile</b><small>字段确认</small></span><span class="component"><b>ReadingRun</b><small>实体推断</small></span><span class="component"><b>CardSelection</b><small>语义确认</small></span><span class="component"><b>Reading</b><small>资产确认</small></span><span class="component"><b>Reflection</b><small>入口确认</small></span><span class="component"><b>DailyState</b><small>需统一</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">08</span><div><h3>知识与公共资产层</h3><p>专用知识与品牌声音构成模型之外的产品壁垒。</p></div></div><div class="components"><span class="component"><b>78 张牌与图像</b><small>官方声明</small></span><span class="component"><b>传统牌义</b><small>官方声明</small></span><span class="component"><b>位置/正逆位规则</b><small>结果确认</small></span><span class="component"><b>Voice Guide</b><small>合理推断</small></span><span class="component"><b>伦理与安全规则</b><small>声明确认</small></span></div></article>
+        <article class="layer"><div class="layer-head"><span class="layer-no">09</span><div><h3>基础设施与治理层</h3><p>营销站供应商可确认，产品 App 底层保持未知。</p></div></div><div class="components"><span class="component"><b>Vercel / GA4 / Meta Pixel</b><small>仅营销站确认</small></span><span class="component"><b>App 数据库 / 队列</b><small>未知</small></span><span class="component"><b>日志与 Trace</b><small>建议设计</small></span><span class="component"><b>隐私同意与删除</b><small>高优先级</small></span><span class="component"><b>地区/年龄/专业建议治理</b><small>声明与运行时</small></span></div></article>
+      </div>
+    </section>
+
+    <section id="agent-map" class="panel">
+      <div class="head"><h2>6. Agent、工具和上下文关系</h2><p>用功能职能命名，不预设后台真的部署了四个 Agent。</p></div>
+      <div class="matrix-wrap"><div class="matrix">
+        <article class="matrix-node"><span class="tag confirmed">已确认</span><h3>用户 / Oracle UI</h3><p>intent、spread、question、pick、reveal</p><div class="out">输出：ReadingDraft</div></article>
+        <article class="matrix-node"><span class="tag inferred">合理推断</span><h3>Oracle Workflow</h3><p>校验、状态推进、确认门、运行 ID</p><div class="out">输出：ReadingRun</div></article>
+        <article class="matrix-node"><span class="tag inferred">合理推断</span><h3>Deck Service</h3><p>稳定牌组、抽牌、正逆位与位置</p><div class="out">输出：CardSelection</div></article>
+        <article class="matrix-node"><span class="tag confirmed">功能确认</span><h3>Interpretation Agent</h3><p>问题 + 牌组 + 可选画像 → 结构化解读</p><div class="out">输出：Interpretation</div></article>
+        <article class="matrix-node"><span class="tag suggested">建议设计</span><h3>Reading Validator</h3><p>牌面一致性、预测性、专业建议与画像权限</p><div class="out">输出：pass / issues</div></article>
+        <article class="matrix-node"><span class="tag confirmed">结果确认</span><h3>Reading Store</h3><p>readingId、type、createdAt、cards、copy</p><div class="out">输出：独立 URL</div></article>
+        <article class="matrix-node"><span class="tag confirmed">已确认</span><h3>History / Reflection</h3><p>回访、日志与潜在长期记忆</p><div class="out">输出：长期实践</div></article>
+      </div></div>
+      <div class="callout"><b>关键判断：</b>第三张揭示后长文几乎立即出现，说明生成可能在最后一张选定后即开始，Reveal 主要控制前台节奏；这是合理推断，不是工具 trace。</div>
+    </section>
+
+    <section id="context" class="panel">
+      <div class="head"><h2>7. 全局上下文架构</h2><p>把“记得你”拆成可见字段、最小读取、同意与可撤回，而不是一个模糊 Memory 框。</p></div>
+      <div class="table-wrap"><table><thead><tr><th>上下文域</th><th>内容</th><th>生产者</th><th>消费者</th><th>修改/失效规则</th><th>等级</th></tr></thead><tbody>
+        <tr><td>UserProfile</td><td>displayName、timezone、preferredIntent、birthDate optional</td><td>用户</td><td>Daily/Oracle</td><td>影响未来解读，不静默改写历史</td><td><span class="tag confirmed">字段确认</span></td></tr>
+        <tr><td>ReadingDraft</td><td>intent、spread、question</td><td>用户/Workflow</td><td>Deck/Agent</td><td>修改后重置尚未确认的选牌</td><td><span class="tag inferred">实体推断</span></td></tr>
+        <tr><td>CardSelection</td><td>card、orientation、position、pickOrder、revealed</td><td>Deck/UI</td><td>Agent/页面</td><td>改牌必须使旧生成失效</td><td><span class="tag inferred">语义推断</span></td></tr>
+        <tr><td>Reading</td><td>id、type、question、cards、interpretation、createdAt、status</td><td>Agent/Store</td><td>Detail/History/Share</td><td>完成后不可静默覆盖</td><td><span class="tag confirmed">对象确认</span></td></tr>
+        <tr><td>Reflection</td><td>readingId、body、createdAt</td><td>用户</td><td>Detail/Memory【未知】</td><td>需逐条同意进入记忆</td><td><span class="tag confirmed">入口确认</span></td></tr>
+        <tr><td>DailyState</td><td>localDate、readingId、status</td><td>Daily Workflow</td><td>Daily/History</td><td>同一用户时区下每日唯一</td><td><span class="tag suggested">必须补强</span></td></tr>
+        <tr><td>ConsentContext</td><td>画像字段、记忆范围、政策版本、分享权限</td><td>用户/治理服务</td><td>Agent/Share/Delete</td><td>可查询、可撤回、可审计</td><td><span class="tag suggested">建议设计</span></td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="knowledge" class="panel">
+      <div class="head"><h2>8. 知识与公共资产架构</h2><p>SeeTarot 的壁垒不是“知道牌义”，而是把牌义、声音、节奏和用户记忆稳定组合。</p></div>
+      <div class="grid three">
+        <article class="mini"><h3>牌组与传统解释</h3><p><span class="tag confirmed">官方声明</span> 78 张牌与传统解释。应版本化正位/逆位、位置语义和牌阵规则，避免模型自行漂移。</p></article>
+        <article class="mini"><h3>声音规范</h3><p><span class="tag inferred">合理推断</span> “patient, strange, a little ominous”与非客服腔需要独立 Voice Guide、反例和回归测试。</p></article>
+        <article class="mini"><h3>用户私有记忆</h3><p><span class="tag unknown">实现未知</span> Profile、Reading、Reflection 不等于默认全部进入模型。建议只传主题摘要和用户批准片段。</p></article>
+        <article class="mini"><h3>Oracle 模板</h3><p><span class="tag confirmed">输出确认</span> Direct word → 三位置解读 → Question to sit with。</p></article>
+        <article class="mini"><h3>Daily 模板</h3><p><span class="tag confirmed">输出确认</span> The card today → A reflection → A grounding practice。</p></article>
+        <article class="mini"><h3>安全与伦理</h3><p><span class="tag suggested">工具强制</span> 非预测、非专业建议、危机升级、依赖防护、年龄与地区规则不能只写在 Prompt。</p></article>
+      </div>
+    </section>
+
+    <section id="models" class="panel">
+      <div class="head"><h2>9. 模型接入与路由架构</h2><p>只确认“有生成结果”；厂商、模型名、温度、上下文窗口和安全模型均未知。</p></div>
+      <div class="table-wrap"><table><thead><tr><th>能力域</th><th>当前可见</th><th>不能确认</th><th>推荐路由输入</th><th>推荐失败策略</th><th>等级</th></tr></thead><tbody>
+        <tr><td>Oracle 文本生成</td><td>稳定五段结构、问题与三牌融合</td><td>模型、Prompt、并发和成本</td><td>intent、spread、question、cards、allowedContext、voiceVersion</td><td>schema 校验；安全失败不自动重试</td><td><span class="tag confirmed">结果确认</span></td></tr>
+        <tr><td>Daily 文本生成</td><td>单牌三段模板与画像语境</td><td>触发点、缓存、是否每日预生成</td><td>localDate、timezone、card、allowedProfile</td><td>已有 readingId 时只恢复，不重复生成</td><td><span class="tag confirmed">结果确认</span></td></tr>
+        <tr><td>安全分类</td><td>只有营销/条款声明</td><td>医疗、财务、危机、依赖风险是否运行时拦截</td><td>问题风险、用户年龄、地区、输出动作性</td><td>高风险降级为反思 + 专业求助路径</td><td><span class="tag suggested">建议设计</span></td></tr>
+        <tr><td>记忆压缩</td><td>宣传称跨 Reading 记忆</td><td>检索方式、窗口、删除传播</td><td>consent、topic、user-approved summaries</td><td>无同意返回空；删除后索引同步清理</td><td><span class="tag unknown">未知</span></td></tr>
+        <tr><td>Provider Adapter</td><td>无直接证据</td><td>单/多模型、路由、降级</td><td>任务模板、延迟、成本、安全等级、语言</td><td>可观测超时、熔断、人工可解释错误</td><td><span class="tag suggested">建议设计</span></td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="technology" class="panel">
+      <div class="head"><h2>10. 底层架构选型表</h2><p>不猜 App 技术栈。先写必须具备的能力，再给可替换的技术类型。</p></div>
+      <div class="table-wrap"><table><thead><tr><th>能力域</th><th>为什么需要</th><th>可能选型</th><th>推荐方案</th><th>确认程度</th></tr></thead><tbody>
+        <tr><td>前端状态机</td><td>三步 Wizard、选牌、揭示、生成、恢复</td><td>显式有限状态机或状态图驱动 UI</td><td>单一 Reading lifecycle；刷新从 readingId 恢复</td><td><span class="tag suggested">高优先级</span></td></tr>
+        <tr><td>认证与画像</td><td>账户、Profile、历史和删除</td><td>托管身份或自建认证 + 结构化用户库</td><td>PII 与模型上下文分离；字段级 consent</td><td><span class="tag inferred">能力需求</span></td></tr>
+        <tr><td>牌组服务</td><td>稳定 78 张牌、正逆位、位置与每日唯一</td><td>确定性种子 + 安全随机 + 规则注册表</td><td>记录 deckVersion、seedPolicy、pickOrder；防重复写入</td><td><span class="tag inferred">实现未知</span></td></tr>
+        <tr><td>工作流编排</td><td>生成、验证、保存、Daily 去重</td><td>事务工作流、事件状态机或命令总线</td><td>runId + idempotencyKey + generated_not_saved</td><td><span class="tag suggested">建议设计</span></td></tr>
+        <tr><td>模型网关</td><td>Oracle/Daily 模板、安全、版本和降级</td><td>Provider Adapter + schema output</td><td>模型、Prompt、voice、安全规则全部版本化</td><td><span class="tag suggested">建议设计</span></td></tr>
+        <tr><td>Reading Store</td><td>独立 URL、History、Reflection、Share</td><td>事务数据库 + 只读快照</td><td>完成 Reading 不可变；Reflection 独立版本</td><td><span class="tag inferred">对象确认</span></td></tr>
+        <tr><td>记忆索引</td><td>跨 Reading 个性化</td><td>结构化摘要 + 可选检索索引</td><td>用户批准后写入；可解释来源；级联删除</td><td><span class="tag unknown">未知</span></td></tr>
+        <tr><td>安全治理</td><td>专业建议、危机、年龄、地区和隐私</td><td>输入/输出分类器 + 审计规则</td><td>工具层阻断；保留 ruleVersion 和 reasonCode</td><td><span class="tag suggested">必须能力</span></td></tr>
+        <tr><td>日志与追踪</td><td>解释 Daily UI 与 History 冲突</td><td>结构化日志、trace、状态事件</td><td>traceId 串 ReadingRun/ModelCall/Save/DailyState</td><td><span class="tag suggested">必须能力</span></td></tr>
+        <tr><td>营销站</td><td>获客、归因与广告</td><td>Vercel + GA4 + Meta Pixel</td><td>按公开政策最小化数据并提供退出</td><td><span class="tag confirmed">仅营销站</span></td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="entities" class="panel">
+      <div class="head"><h2>11. 数据实体与 ER 图</h2><p>实体名是语义模板；有页面证据的对象与建议字段分开。</p></div>
+      <div class="table-wrap"><table><thead><tr><th>实体</th><th>职责</th><th>关键关系</th><th>证据</th><th>等级</th></tr></thead><tbody>
+        <tr><td>User</td><td>账户与私有数据所有者</td><td>1:1 Profile；1:N Reading/Reflection</td><td>登录与用户菜单</td><td><span class="tag confirmed">对象确认</span></td></tr>
+        <tr><td>UserProfile</td><td>称呼、时区、偏好与可选出生日期</td><td>属于 User；供 Daily/Oracle 读取</td><td>Profile 标签和用途说明</td><td><span class="tag confirmed">字段确认</span></td></tr>
+        <tr><td>ReadingRun</td><td>一次配置、抽牌、生成与保存状态</td><td>属于 User；物化为 Reading</td><td>多阶段 UI</td><td><span class="tag inferred">实体推断</span></td></tr>
+        <tr><td>Card</td><td>牌名、图像和知识引用</td><td>通过 ReadingCard 被 Reading 使用</td><td>可见牌名与图像</td><td><span class="tag confirmed">对象确认</span></td></tr>
+        <tr><td>ReadingCard</td><td>位置、正逆位、选择顺序与揭示状态</td><td>N:1 Reading / Card</td><td>选牌与结果</td><td><span class="tag inferred">实体推断</span></td></tr>
+        <tr><td>Reading</td><td>问题、牌组、解读、日期和类型</td><td>1:N Reflection；进入 History/Share</td><td>独立 URL 与历史</td><td><span class="tag confirmed">对象确认</span></td></tr>
+        <tr><td>Reflection</td><td>用户在 Reading 下的日志</td><td>属于 User/Reading</td><td>0/2000 与 Inscribe</td><td><span class="tag confirmed">入口确认</span></td></tr>
+        <tr><td>ConsentRecord</td><td>画像、记忆、政策与分享同意</td><td>关联 User/Reading</td><td>当前缺口</td><td><span class="tag suggested">建议设计</span></td></tr>
+        <tr><td>DailyState</td><td>用户当地日期、Reading 与状态</td><td>每日每用户唯一</td><td>冲突提供设计理由</td><td><span class="tag suggested">建议设计</span></td></tr>
+      </tbody></table></div>
+      <div class="code-wrap"><div class="code-head"><b>Mermaid ER 图 · 可复制</b><button class="btn copy" data-target="erCode">复制 ER 图</button></div><pre id="erCode">erDiagram
+  USER ||--|| USER_PROFILE : owns
+  USER ||--o{ READING_RUN : starts
+  READING_RUN ||--o| READING : materializes
+  READING ||--|{ READING_CARD : contains
+  CARD ||--o{ READING_CARD : referenced_by
+  USER ||--o{ READING : owns
+  USER ||--o{ REFLECTION : writes
+  READING ||--o{ REFLECTION : receives
+  USER ||--o{ CONSENT_RECORD : grants
+  USER ||--o{ DAILY_STATE : has
+  DAILY_STATE ||--o| READING : points_to</pre></div>
+    </section>
+
+    <section id="sequence" class="panel">
+      <div class="head"><h2>12. 端到端时序图</h2><p>Oracle 三牌实测时序；生成开始点为合理推断。</p></div>
+      <div class="code-wrap"><div class="code-head"><b>Mermaid sequenceDiagram · 含保存失败与重复提交</b><button class="btn copy" data-target="sequenceCode">复制时序图</button></div><pre id="sequenceCode">sequenceDiagram
+  autonumber
+  actor U as 用户
+  participant UI as Oracle UI
+  participant W as Workflow（推断）
+  participant D as Deck Service（推断）
+  participant A as Interpretation Agent
+  participant V as Validator（建议）
+  participant S as Reading Store
+  U->>UI: intent + spread + question
+  UI->>W: create(runId, idempotencyKey)
+  W-->>UI: selecting
+  loop 选择三张牌
+    U->>UI: pick card
+    UI->>D: bind card to position
+    D-->>UI: cardRef + remaining
+  end
+  W->>A: question + cards + allowed profile context
+  U->>UI: reveal Past / Present / Possible
+  A-->>W: structured interpretation
+  W->>V: validate cards / safety / context use
+  alt validation passed
+    W->>S: save idempotently
+    S-->>UI: readingId + completed
+    UI-->>U: Reading + Keep this
+  else generated but save failed
+    W-->>UI: generated_not_saved + recover
+  else duplicate submit
+    S-->>UI: return existing readingId
+  end</pre></div>
+    </section>
+
+    <section id="panorama" class="panel">
+      <div class="head"><h2>13. 产品全景架构主图</h2><p>绿色实线为已确认结果，金色虚线为合理推断，蓝色点线为建议设计。</p></div>
+      <div class="diagram-scroll"><div class="diagram">
+        <svg viewBox="0 0 1450 850" role="img" aria-label="SeeTarot 产品全景架构主图">
+          <defs><marker id="ag" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#8fb589"/></marker><marker id="aa" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e0a85d"/></marker><marker id="ab" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#86a5b7"/></marker></defs>
+          <rect class="group" x="20" y="20" width="1410" height="80" rx="18"/><text class="title" x="45" y="50">用户与渠道层</text><rect class="box" x="250" y="38" width="190" height="44" rx="11"/><text class="label" x="280" y="64">营销站 · Sample · FAQ</text><rect class="box" x="480" y="38" width="170" height="44" rx="11"/><text class="label" x="526" y="64">Web App</text><rect class="box" x="690" y="38" width="165" height="44" rx="11"/><text class="label" x="735" y="64">iOS · Soon</text><rect class="box" x="895" y="38" width="260" height="44" rx="11"/><text class="label" x="932" y="64">美国居民 · 账户用户</text>
+          <rect class="group" x="20" y="120" width="1410" height="100" rx="18"/><text class="title" x="45" y="150">交互与应用层</text><rect class="box" x="220" y="145" width="160" height="52" rx="11"/><text class="label" x="266" y="167">Daily</text><text class="sub" x="246" y="184">每日单牌</text><rect class="box" x="405" y="145" width="190" height="52" rx="11"/><text class="label" x="445" y="167">Oracle Wizard</text><text class="sub" x="435" y="184">Intent / Spread / Question</text><rect class="box" x="620" y="145" width="190" height="52" rx="11"/><text class="label" x="661" y="167">Card Table</text><text class="sub" x="658" y="184">Pick / Reveal</text><rect class="box" x="835" y="145" width="170" height="52" rx="11"/><text class="label" x="874" y="167">Reading</text><text class="sub" x="868" y="184">长文结果</text><rect class="box" x="1030" y="145" width="190" height="52" rx="11"/><text class="label" x="1075" y="167">History</text><text class="sub" x="1055" y="184">Reflection / Share</text>
+          <rect class="group" x="20" y="240" width="1410" height="125" rx="18"/><text class="title" x="45" y="270">Agent 与编排层</text><rect class="box" x="215" y="275" width="205" height="62" rx="12"/><text class="label" x="248" y="299">Oracle Workflow</text><text class="sub" x="242" y="318">状态 · 校验 · 确认门</text><rect class="risk" x="455" y="275" width="205" height="62" rx="12"/><text class="label" x="492" y="299">Daily Workflow</text><text class="sub" x="485" y="318">当前状态恢复冲突</text><rect class="box" x="695" y="275" width="235" height="62" rx="12"/><text class="label" x="733" y="299">Interpretation Agent</text><text class="sub" x="733" y="318">Oracle / Daily 模板</text><rect class="box" x="965" y="275" width="220" height="62" rx="12"/><text class="label" x="1007" y="299">Memory / Reflection</text><text class="sub" x="1000" y="318">同意与范围未知</text>
+          <rect class="group" x="20" y="385" width="1410" height="125" rx="18"/><text class="title" x="45" y="415">工具与模型层</text><rect class="box" x="180" y="425" width="170" height="56" rx="11"/><text class="label" x="224" y="449">认证 / 画像</text><text class="sub" x="222" y="467">PII 隔离</text><rect class="box" x="380" y="425" width="170" height="56" rx="11"/><text class="label" x="423" y="449">Deck Service</text><text class="sub" x="420" y="467">算法未知</text><rect class="box" x="580" y="425" width="190" height="56" rx="11"/><text class="label" x="615" y="449">Model Gateway</text><text class="sub" x="615" y="467">厂商未知</text><rect class="box" x="800" y="425" width="180" height="56" rx="11"/><text class="label" x="838" y="449">Validator</text><text class="sub" x="833" y="467">建议设计</text><rect class="box" x="1010" y="425" width="220" height="56" rx="11"/><text class="label" x="1048" y="449">Reading / Share / Delete</text><text class="sub" x="1060" y="467">持久化与治理</text>
+          <rect class="group" x="20" y="530" width="1410" height="145" rx="18"/><text class="title" x="45" y="560">上下文、数据与知识层</text><rect class="box" x="155" y="575" width="175" height="62" rx="11"/><text class="label" x="195" y="599">UserProfile</text><text class="sub" x="184" y="618">字段确认 · 用途透明</text><rect class="box" x="360" y="575" width="175" height="62" rx="11"/><text class="label" x="397" y="599">ReadingRun</text><text class="sub" x="392" y="618">状态与幂等</text><rect class="box" x="565" y="575" width="175" height="62" rx="11"/><text class="label" x="604" y="599">Reading</text><text class="sub" x="592" y="618">不可变结果资产</text><rect class="box" x="770" y="575" width="175" height="62" rx="11"/><text class="label" x="800" y="599">Reflection</text><text class="sub" x="795" y="618">用户私有日志</text><rect class="risk" x="975" y="575" width="175" height="62" rx="11"/><text class="label" x="1007" y="599">DailyState</text><text class="sub" x="995" y="618">日期 / 状态冲突</text><rect class="box" x="1180" y="575" width="185" height="62" rx="11"/><text class="label" x="1212" y="599">Deck Knowledge</text><text class="sub" x="1207" y="618">牌义 · Voice · Safety</text>
+          <rect class="group" x="20" y="695" width="1410" height="125" rx="18"/><text class="title" x="45" y="725">基础设施与治理层</text><rect class="box" x="210" y="742" width="220" height="50" rx="11"/><text class="label" x="255" y="772">App Infra【未知】</text><rect class="box" x="465" y="742" width="230" height="50" rx="11"/><text class="label" x="505" y="772">Logs / Trace【建议】</text><rect class="risk" x="730" y="742" width="270" height="50" rx="11"/><text class="label" x="768" y="772">App Privacy / Terms 缺口</text><rect class="box" x="1035" y="742" width="260" height="50" rx="11"/><text class="label" x="1072" y="772">Vercel / GA4 / Meta【营销站】</text>
+          <path class="confirmed-line" marker-end="url(#ag)" d="M500 197 L500 275"/><text class="arrow-label" x="510" y="238">配置</text><path class="confirmed-line" marker-end="url(#ag)" d="M810 337 L810 425"/><text class="arrow-label" x="820" y="384">生成</text><path class="inferred-line" marker-end="url(#aa)" d="M468 481 L468 575"/><text class="arrow-label" x="478" y="533">写入选择</text><path class="confirmed-line" marker-end="url(#ag)" d="M1120 481 L1120 575"/><text class="arrow-label" x="1130" y="533">保存结果</text><path class="suggested-line" marker-end="url(#ab)" d="M865 637 L865 742"/><text class="arrow-label" x="875" y="690">审计与同意</text>
+        </svg>
+      </div></div>
+      <div class="callout green"><b>主图如何读：</b>用户输入从 Oracle Wizard 进入，牌组和可选画像组成最小上下文，Interpretation Agent 生成结构化结果，Reading Store 负责长期资产；DailyState、App Policy 和 Trace 是当前最需要补强的三个横切面。</div>
+    </section>
+
+    <section id="asis" class="panel">
+      <div class="head"><h2>14. 当前架构 As-Is</h2><p>只描述页面可以支持的现状与明确冲突。</p></div>
+      <div class="table-wrap"><table><thead><tr><th>主题</th><th>当前可见架构</th><th>证据等级</th><th>用户结果</th><th>缺口</th></tr></thead><tbody>
+        <tr><td>核心仪式</td><td>Intent → Spread → Question → Pick → Reveal → Reading</td><td><span class="tag confirmed">已确认</span></td><td>比聊天框更有参与感和专用性</td><td>失败、取消与恢复不可见</td></tr>
+        <tr><td>生成结果</td><td>Oracle 五段模板；Daily 三段模板</td><td><span class="tag confirmed">已确认</span></td><td>声音稳定，输出可读</td><td>模型、规则版本与高风险护栏未知</td></tr>
+        <tr><td>画像个性化</td><td>Profile 字段用途可见；结果会融合画像语境</td><td><span class="tag confirmed">字段/结果</span> <span class="tag inferred">读取推断</span></td><td>更贴身</td><td>提交前不展示本次使用字段</td></tr>
+        <tr><td>Reading 资产</td><td>独立 URL、自动 History、Reflection 与 Share</td><td><span class="tag confirmed">已确认</span></td><td>从一次生成变成长期实践</td><td>分享权限、日志记忆和单条删除未知</td></tr>
+        <tr><td>Daily 状态</td><td>Daily loading；History/Detail completed</td><td><span class="tag confirmed">冲突事实</span></td><td>不知道是否完成、是否应重试</td><td>缺少统一 lifecycle / 恢复逻辑</td></tr>
+        <tr><td>日期/时区</td><td>Daily 本地 8/19；详情/历史 8/18</td><td><span class="tag confirmed">冲突事实</span></td><td>日记归属与连续性混乱</td><td>localDate 与 UTC 未统一展示</td></tr>
+        <tr><td>商业化</td><td>FAQ 讲未来免费/付费；App 无价格入口</td><td><span class="tag confirmed">声明/界面</span></td><td>当前无中途 upsell</td><td>额度、价格、套餐与支付未知</td></tr>
+        <tr><td>隐私与条款</td><td>App 指向营销站政策；政策排除 App</td><td><span class="tag confirmed">覆盖缺口</span></td><td>用户无法一跳确认账户数据规则</td><td>应用专属政策不可见</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="tobe" class="panel">
+      <div class="head"><h2>15. 建议架构 To-Be</h2><p>把体验优势保留，把状态、画像、治理与安全变成可验证契约。</p></div>
+      <div class="table-wrap"><table><thead><tr><th>维度</th><th>建议设计</th><th>用户可见变化</th><th>系统能力</th><th>验收指标</th></tr></thead><tbody>
+        <tr><td>统一状态</td><td>ReadingLifecycle：draft / selecting / revealing / generating / completed / failed / interrupted</td><td>刷新后恢复到唯一正确位置</td><td>单一写入者、runId、idempotencyKey</td><td>Daily/History 冲突率 &lt;0.1%</td></tr>
+        <tr><td>日期事实源</td><td>localDate 与 createdAtUTC 分离</td><td>Daily、详情、History 显示同一用户当地日期</td><td>timezone 版本与迁移规则</td><td>跨页面日期一致率 100%</td></tr>
+        <tr><td>画像收据</td><td>每次提交前显示 allowed context</td><td>可关闭星座、默认意图和历史记忆</td><td>字段级 consent 与审计</td><td>个性化来源可解释率 100%</td></tr>
+        <tr><td>生成保存事务</td><td>generated_not_saved 与幂等保存</td><td>失败时保留结果并提供恢复</td><td>状态事件、唯一约束、补偿任务</td><td>重复 Reading/扣费率趋近 0</td></tr>
+        <tr><td>安全护栏</td><td>输入/输出风险分类 + 专业求助路径</td><td>高风险问题保持反思性，不给确定指令</td><td>ruleVersion、reasonCode、危机升级</td><td>高风险违规率 / 升级召回率</td></tr>
+        <tr><td>记忆中心</td><td>Reading/Reflection 逐条纳入、摘要和撤回</td><td>用户知道系统记住什么、为什么</td><td>可解释检索、级联删除</td><td>可查看/可撤回率 100%</td></tr>
+        <tr><td>应用政策</td><td>App 专属 Privacy/Terms + 版本同意</td><td>页脚一跳可读账户、Reading、模型与删除规则</td><td>政策版本、地区和年龄治理</td><td>覆盖率 100%；删除 SLA 可审计</td></tr>
+        <tr><td>可观测性</td><td>traceId 贯穿 Workflow/Model/Save/History</td><td>错误可解释、重试不重复</td><td>结构化日志、指标、告警</td><td>可定位率、平均恢复时间</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="risks" class="panel">
+      <div class="head"><h2>16. 关键架构风险</h2><p>按用户伤害、合规和重复运行风险排序。</p></div>
+      <div class="risk-grid">
+        <article class="risk" style="--tone:var(--red)"><span class="tag confirmed">P0 · 已确认</span><h3>App 政策覆盖缺口</h3><p>应用页脚链接到明确声明只覆盖营销站的政策。</p><div class="impact">影响：账户、Reading、画像和模型处理缺少可见法律契约</div></article>
+        <article class="risk" style="--tone:var(--red)"><span class="tag confirmed">P0 · 已确认</span><h3>Daily 状态不一致</h3><p>页面持续 loading，History 已 completed，可能诱发重复操作。</p><div class="impact">影响：完成事实不可信、重复运行和客服成本</div></article>
+        <article class="risk" style="--tone:var(--amber)"><span class="tag confirmed">P1 · 已确认</span><h3>日期口径冲突</h3><p>同一会话在 Daily 与详情/历史跨两个日期。</p><div class="impact">影响：每日连续性、提醒、去重和日志归属</div></article>
+        <article class="risk" style="--tone:var(--amber)"><span class="tag inferred">P1 · 合理推断</span><h3>画像使用不透明</h3><p>结果融合画像，但提交前没有本次上下文收据。</p><div class="impact">影响：信任、隐私惊讶和画像偏见</div></article>
+        <article class="risk" style="--tone:var(--amber)"><span class="tag suggested">P1 · 需治理</span><h3>行动性语言越界</h3><p>产品声明非专业建议，但文本会给出行动与 grounding practice。</p><div class="impact">影响：医疗、财务、关系等高风险误用</div></article>
+        <article class="risk" style="--tone:var(--blue)"><span class="tag unknown">P2 · 未知</span><h3>跨 Reading 记忆</h3><p>宣传称会记住用户，但范围、同意、撤回和删除传播未知。</p><div class="impact">影响：隐私、错误人格化和“被系统定义”</div></article>
+        <article class="risk" style="--tone:var(--blue)"><span class="tag unknown">P2 · 未知</span><h3>生成与保存非事务</h3><p>没有可见 generated_not_saved 或重复提交保护。</p><div class="impact">影响：结果丢失、重复资产和未来重复计费</div></article>
+        <article class="risk" style="--tone:var(--blue)"><span class="tag suggested">P2 · 产品伦理</span><h3>依赖形成</h3><p>Daily、Ask again、记忆与神秘人格组合可能鼓励过度使用。</p><div class="impact">影响：用户福祉与品牌信任</div></article>
+        <article class="risk" style="--tone:var(--blue)"><span class="tag unknown">P2 · 商业化</span><h3>未来付费契约</h3><p>“无中途 upsell”的品牌承诺需与付费牌阵、记忆和额度统一。</p><div class="impact">影响：surprise paywall 与转化信任</div></article>
+      </div>
+    </section>
+
+    <section id="trace" class="panel">
+      <div class="head"><h2>17. 架构组件—证据追溯</h2><p>筛选不同证据等级，检查主图有没有把推断画成事实。</p></div>
+      <div class="controls"><button class="btn active" data-filter="all">全部</button><button class="btn" data-filter="confirmed">已确认</button><button class="btn" data-filter="inferred">合理推断</button><button class="btn" data-filter="suggested">建议设计</button><button class="btn" data-filter="unknown">未知</button></div>
+      <div class="table-wrap"><table id="traceTable"><thead><tr><th>组件/规则</th><th>为什么需要</th><th>证据</th><th>等级</th><th>置信度</th><th>层级</th></tr></thead><tbody>
+        <tr data-level="confirmed"><td>Oracle Wizard</td><td>收集意图、牌阵和问题</td><td>E-J-007～009</td><td><span class="tag confirmed">已确认</span></td><td>100%</td><td>L2/L3</td></tr>
+        <tr data-level="confirmed"><td>Card Table / Reveal</td><td>保留用户主动选择与节奏</td><td>E-J-010/011</td><td><span class="tag confirmed">已确认</span></td><td>100%</td><td>L2/L3</td></tr>
+        <tr data-level="confirmed"><td>Interpretation Agent 职能</td><td>生成 Oracle/Daily 结构化结果</td><td>E-A-001～003</td><td><span class="tag confirmed">功能确认</span></td><td>100%</td><td>L4/L6</td></tr>
+        <tr data-level="inferred"><td>Oracle Workflow</td><td>推进配置、选牌、揭示、生成与保存</td><td>稳定多阶段 UI</td><td><span class="tag inferred">合理推断</span></td><td>90%</td><td>L4</td></tr>
+        <tr data-level="inferred"><td>Deck Service</td><td>稳定牌组、正逆位和位置绑定</td><td>三牌结果与 19 牌背</td><td><span class="tag inferred">能力推断</span></td><td>88%</td><td>L5/L8</td></tr>
+        <tr data-level="confirmed"><td>Reading Store</td><td>独立 URL 和 History</td><td>E-J-012/013</td><td><span class="tag confirmed">结果确认</span></td><td>100%</td><td>L5/L7</td></tr>
+        <tr data-level="confirmed"><td>UserProfile</td><td>称呼、时区、默认意图和画像织入</td><td>E-J-016</td><td><span class="tag confirmed">字段确认</span></td><td>100%</td><td>L3/L7</td></tr>
+        <tr data-level="inferred"><td>Profile Context Reader</td><td>结果引用画像语境</td><td>E-A-002</td><td><span class="tag inferred">合理推断</span></td><td>85%</td><td>L5/L7</td></tr>
+        <tr data-level="confirmed"><td>Reflection 入口</td><td>把一次解读变成日志</td><td>E-J-012</td><td><span class="tag confirmed">入口确认</span></td><td>100%</td><td>L3/L7</td></tr>
+        <tr data-level="suggested"><td>统一 ReadingLifecycle</td><td>解决 Daily/History 冲突</td><td>E-J-014</td><td><span class="tag suggested">建议设计</span></td><td>100% 必要性</td><td>L4/L7</td></tr>
+        <tr data-level="suggested"><td>localDate + UTC</td><td>解决 8/19 与 8/18 冲突</td><td>E-J-015</td><td><span class="tag suggested">建议设计</span></td><td>100% 必要性</td><td>L7</td></tr>
+        <tr data-level="suggested"><td>Context Receipt</td><td>让画像使用可见、可关闭</td><td>E-A-002 / E-J-016</td><td><span class="tag suggested">建议设计</span></td><td>95% 必要性</td><td>L3/L7/L9</td></tr>
+        <tr data-level="suggested"><td>Reading Validator</td><td>校验牌面、安全和专业建议</td><td>治理理由</td><td><span class="tag suggested">建议设计</span></td><td>95% 必要性</td><td>L5/L9</td></tr>
+        <tr data-level="unknown"><td>真实模型/厂商</td><td>文本生成运行时</td><td>无页面证据</td><td><span class="tag unknown">未知</span></td><td>0%</td><td>L6</td></tr>
+        <tr data-level="unknown"><td>跨 Reading 记忆实现</td><td>营销声称记住用户</td><td>未做多轮对照</td><td><span class="tag unknown">未知</span></td><td>35%</td><td>L4/L7</td></tr>
+        <tr data-level="confirmed"><td>营销站供应商</td><td>获客与分析</td><td>E-O-002</td><td><span class="tag confirmed">仅营销站</span></td><td>100%</td><td>L9</td></tr>
+        <tr data-level="suggested"><td>App 专属政策</td><td>覆盖账户、Reading、模型和删除</td><td>E-R-001</td><td><span class="tag suggested">必须补齐</span></td><td>100% 必要性</td><td>L9</td></tr>
+      </tbody></table></div>
+    </section>
+
+    <section id="unknowns" class="panel">
+      <div class="head"><h2>18. 仍然无法确认的问题</h2><p>完整图形不等于后台真实实现完整可见。</p></div>
+      <div class="grid three">
+        <article class="mini"><h3>真实 Agent 数量</h3><p>Oracle、Daily 和 Memory 是否是独立 Agent，还是同一模型的不同模板？</p></article>
+        <article class="mini"><h3>模型与 Prompt</h3><p>供应商、模型名、Prompt 版本、温度、上下文窗口和成本未知。</p></article>
+        <article class="mini"><h3>抽牌算法</h3><p>随机源、种子、正逆位比例、每日去重和可审计性未知。</p></article>
+        <article class="mini"><h3>生成时序</h3><p>最后一张选定后是否已开始生成，Reveal 是否只是展示门，未有 trace。</p></article>
+        <article class="mini"><h3>跨 Reading 记忆</h3><p>读取哪些历史、是否使用 Reflection、如何摘要、撤回和删除未知。</p></article>
+        <article class="mini"><h3>安全执行</h3><p>医疗、财务、危机、年龄与地区限制是否由工具强制未知。</p></article>
+        <article class="mini"><h3>失败与幂等</h3><p>模型失败、保存失败、重复提交、网络中断和恢复路径未知。</p></article>
+        <article class="mini"><h3>商业化</h3><p>免费额度、付费牌阵、订阅、价格、退款和“无中途 upsell”契约未知。</p></article>
+        <article class="mini"><h3>分享与权限</h3><p>分享页是否公开、能否撤销、搜索引擎是否索引、个人信息是否脱敏未知。</p></article>
+        <article class="mini"><h3>反思与删除</h3><p>Reflection 的编辑、版本、单条删除和账户删除级联未知。</p></article>
+        <article class="mini"><h3>App 基础设施</h3><p>框架、数据库、队列、日志、对象存储、云服务和地区部署未知。</p></article>
+        <article class="mini"><h3>Daily 冲突根因</h3><p>是前端状态恢复、日期归属、缓存、后台任务还是浏览器兼容问题，仍不能判断。</p></article>
+      </div>
+      <details class="note"><summary>本轮使用了哪些材料？</summary><div class="inside"><p>读取 SeeTarot 的范围与证据规则、用户旅程、Agent 契约、功能等价 Prompt、产品架构 Markdown 和 24 条证据台账；视觉结构参考 OiiOii 的“产品全景架构｜证据分层版”HTML。没有再次提交问题、抽牌、分享、写反思、购买、订阅、删除或读取账户敏感值。</p></div></details>
+      <div class="callout green"><b>停止点：</b>本页已经完成 SeeTarot 产品全景架构，不继续猜测隐藏 Prompt、真实 API、模型厂商、数据库或云服务。下一步应优先验证 Daily 状态、应用政策、画像同意和高风险安全路径。</div>
+    </section>
+  </main>
+
+  <footer><div class="wrap">SeeTarot 产品全景架构 · 页面证据分层版。所有组件均标注已确认、合理推断、建议设计或未知；不把完整图形外观冒充后台真实实现。</div></footer>
+  <div class="toast" id="toast" aria-live="polite"></div>
+  <script>
+    const sectionOrder=['summary','evidence','domains','e2e','layers','agent-map','context','knowledge','models','technology','entities','sequence','panorama','asis','tobe','risks','trace','unknowns'];
+    const main=document.querySelector('main');
+    sectionOrder.forEach(id=>{const section=document.getElementById(id);if(section)main.appendChild(section)});
+    if(location.hash)requestAnimationFrame(()=>{const target=document.querySelector(location.hash);if(target)target.scrollIntoView()});
+    const toast=document.getElementById('toast');
+    function notify(message){toast.textContent=message;toast.classList.add('show');setTimeout(()=>toast.classList.remove('show'),1800)}
+    document.querySelectorAll('.copy').forEach(btn=>btn.addEventListener('click',async()=>{
+      const el=document.getElementById(btn.dataset.target);let copied=false;
+      try{await navigator.clipboard.writeText(el.textContent);copied=true}catch(e){const range=document.createRange();range.selectNodeContents(el);const sel=getSelection();sel.removeAllRanges();sel.addRange(range);copied=document.execCommand('copy')}
+      if(copied){const old=btn.textContent;btn.textContent='已复制';notify('已复制到剪贴板');setTimeout(()=>btn.textContent=old,1600)}else notify('浏览器未授权剪贴板，已选中文本，可手动复制');
+    }));
+    const filterButtons=document.querySelectorAll('[data-filter]');
+    filterButtons.forEach(btn=>btn.addEventListener('click',()=>{
+      filterButtons.forEach(b=>b.classList.remove('active'));btn.classList.add('active');
+      const level=btn.dataset.filter;
+      document.querySelectorAll('#traceTable tbody tr').forEach(row=>row.classList.toggle('hidden',level!=='all'&&row.dataset.level!==level));
+    }));
+  </script>
+</body>
+</html>
