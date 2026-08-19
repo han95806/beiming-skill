@@ -36,10 +36,11 @@
     .code-wrap{margin:0 24px 24px;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:#0d0b0a}.code-head{display:flex;align-items:center;justify-content:space-between;padding:10px 12px;border-bottom:1px solid var(--line);background:#1b1612}.code-wrap pre{margin:0;padding:16px;overflow:auto;max-height:650px;color:#e2d8cc;font:12px/1.58 ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre}.btn{cursor:pointer;border:1px solid var(--line);border-radius:9px;padding:8px 11px;background:var(--card2);color:var(--text)}.btn.active,.btn:hover{border-color:var(--gold)}.controls{display:flex;flex-wrap:wrap;gap:8px;padding:0 24px 18px}
     .diagram-scroll{overflow:auto;padding:0 24px 24px}.diagram{min-width:1420px;border:1px solid var(--line);border-radius:16px;background:#0d0b0a;padding:15px}.diagram svg{display:block;width:100%;height:auto;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI","PingFang SC",sans-serif}.diagram .box{fill:#201913;stroke:#594838;stroke-width:1.4}.diagram .group{fill:#15100d;stroke:#40342a;stroke-width:1.3}.diagram .title{fill:#f4ecdf;font-size:17px;font-weight:800}.diagram .label{fill:#d6cabd;font-size:12px}.diagram .sub{fill:#a89583;font-size:10px}.diagram .confirmed-line{stroke:var(--green);stroke-width:2.4;fill:none}.diagram .inferred-line{stroke:var(--amber);stroke-width:2.2;stroke-dasharray:8 6;fill:none}.diagram .suggested-line{stroke:var(--blue);stroke-width:2.2;stroke-dasharray:2 6;fill:none}.diagram .arrow-label{fill:#f0e5d8;font-size:11px;font-weight:700;paint-order:stroke;stroke:#0d0b0a;stroke-width:5px;stroke-linejoin:round}.diagram .risk{fill:rgba(216,118,114,.13);stroke:var(--red);stroke-width:1.4}
     .risk-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:0 24px 24px}.risk{border:1px solid var(--line);border-left:4px solid var(--tone,var(--amber));border-radius:12px;padding:14px;background:var(--card)}.risk h3{margin:4px 0 7px}.risk p{margin:0;color:#d0c4b7}.risk .impact{margin-top:8px;color:var(--tone,var(--amber));font-size:12px}
+    .shot-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;padding:0 24px 24px}.shot{margin:0;border:1px solid var(--line);border-radius:15px;overflow:hidden;background:#0d0b0a}.shot img{display:block;width:100%;aspect-ratio:16/9;object-fit:cover;object-position:top;background:#090706}.shot figcaption{padding:12px 14px;color:#cfc3b6}.shot figcaption b{color:var(--gold);margin-right:7px}.shot figcaption small{display:block;margin-top:3px;color:var(--muted)}
     .hidden{display:none!important}details.note{margin:0 24px 24px;border:1px solid var(--line);border-radius:12px;background:var(--card)}details.note summary{cursor:pointer;padding:13px 15px;font-weight:750}details.note .inside{padding:0 15px 15px;color:#d1c6ba}.toast{position:fixed;right:22px;bottom:22px;z-index:60;color:#17110d;background:var(--gold);border-radius:10px;padding:9px 12px;font-weight:750;opacity:0;transform:translateY(8px);transition:.2s;pointer-events:none}.toast.show{opacity:1;transform:none}
     footer{border-top:1px solid var(--line);padding:26px 0;color:var(--muted)}code{color:#f0c983}
     @media(max-width:1120px){.grid.four,.domain-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.three,.risk-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.grid.two{grid-template-columns:1fr}}
-    @media(max-width:680px){.wrap{width:min(100% - 18px,1580px)}header{padding-top:44px}.grid.four,.grid.three,.grid.two,.domain-grid,.risk-grid{grid-template-columns:1fr;padding-left:15px;padding-right:15px}.head,.layers,.controls,.diagram-scroll{padding-left:15px;padding-right:15px}.callout,.code-wrap,details.note{margin-left:15px;margin-right:15px}.kpi{font-size:31px}}
+    @media(max-width:680px){.wrap{width:min(100% - 18px,1580px)}header{padding-top:44px}.grid.four,.grid.three,.grid.two,.domain-grid,.risk-grid,.shot-grid{grid-template-columns:1fr;padding-left:15px;padding-right:15px}.head,.layers,.controls,.diagram-scroll{padding-left:15px;padding-right:15px}.callout,.code-wrap,details.note{margin-left:15px;margin-right:15px}.kpi{font-size:31px}}
     @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}.toast{transition:none}}
   </style>
 </head>
@@ -48,12 +49,12 @@
     <div class="eyebrow">SeeTarot · Evidence-Layered Product Architecture</div>
     <h1>它不是会占卜的聊天框。<br><em>它是一间把问题、抽牌、揭示与记忆串成仪式的房间。</em></h1>
     <p class="lead">一句话架构：SeeTarot 用专用交互编排、用户主动选牌、传统牌义与稳定声音、画像与阅读历史，把文本生成能力封装成持续的塔罗实践；当前最明显的架构缺口，是 Daily 页面、Reading 结果、日期口径和隐私政策没有共享一套可信的完成与治理事实源。</p>
-    <div class="meta"><span class="pill">实测：1 次 General / Three 完整闭环</span><span class="pill">证据：24 条 E-J / E-A / E-O / E-R</span><span class="pill">核心对象：Profile · Reading · Card · Reflection</span><span class="pill">快照：2026-08-19</span></div>
+    <div class="meta"><span class="pill">实测：1 次 General / Three 完整闭环</span><span class="pill">证据：24 条 E-J / E-A / E-O / E-R</span><span class="pill">核心截图：8 张</span><span class="pill">核心对象：Profile · Reading · Card · Reflection</span><span class="pill">快照：2026-08-19</span></div>
     <div class="legend"><span class="tag confirmed">已确认</span><span class="tag inferred">合理推断</span><span class="tag suggested">建议设计</span><span class="tag unknown">未知</span></div>
   </div></header>
 
   <nav><div class="wrap">
-    <a href="#summary">摘要</a><a href="#evidence">证据</a><a href="#domains">功能域</a><a href="#e2e">端到端</a><a href="#layers">九层架构</a><a href="#agent-map">Agent关系</a><a href="#context">全局上下文</a><a href="#knowledge">知识资产</a><a href="#models">模型路由</a><a href="#technology">底层选型</a><a href="#entities">数据实体</a><a href="#sequence">时序图</a><a href="#panorama">全景主图</a><a href="#asis">As-Is</a><a href="#tobe">To-Be</a><a href="#risks">风险</a><a href="#trace">追溯</a><a href="#unknowns">未知</a>
+    <a href="#summary">摘要</a><a href="#evidence">证据</a><a href="#screens">截图</a><a href="#domains">功能域</a><a href="#e2e">端到端</a><a href="#layers">九层架构</a><a href="#agent-map">Agent关系</a><a href="#context">全局上下文</a><a href="#knowledge">知识资产</a><a href="#models">模型路由</a><a href="#technology">底层选型</a><a href="#entities">数据实体</a><a href="#sequence">时序图</a><a href="#panorama">全景主图</a><a href="#asis">As-Is</a><a href="#tobe">To-Be</a><a href="#risks">风险</a><a href="#trace">追溯</a><a href="#unknowns">未知</a>
   </div></nav>
 
   <main class="wrap">
@@ -85,8 +86,23 @@
       <div class="chips" style="padding:0 24px 24px"><a class="ev" href="evidence/evidence-ledger.md">打开 24 条证据台账</a><a class="ev" href="https://www.seetarot.com/">官网</a><a class="ev" href="https://www.seetarot.com/about">About</a><a class="ev" href="https://www.seetarot.com/privacy">营销站 Privacy</a></div>
     </section>
 
+    <section id="screens" class="panel">
+      <div class="head"><h2>3. 核心页面证据</h2><p>截图来自同一已登录账户的只读复核；未提交新问题、未写 Reflection、未分享、未修改画像。</p></div>
+      <div class="shot-grid">
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S09-营销首页与产品定位.jpg" alt="SeeTarot 营销首页"><figcaption><b>S09</b>营销首页与产品定位<small>Ask → Shuffle → Reveal；E-J-001～004</small></figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S01-Daily页面加载状态.jpg" alt="Daily 页面加载状态"><figcaption><b>S01</b>Daily 持续加载状态<small>与 History 已有结果形成冲突；E-J-014～015</small></figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S02-Oracle意图选择.jpg" alt="Oracle 意图选择"><figcaption><b>S02</b>Oracle 第一步：七类意图<small>General、Love、Career 等；E-J-007</small></figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S03-Oracle牌阵选择.jpg" alt="Oracle 牌阵选择"><figcaption><b>S03</b>Oracle 第二步：牌阵选择<small>Single、Three、Celtic Cross Coming Soon；E-J-008</small></figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S04-Oracle问题输入.jpg" alt="Oracle 问题输入"><figcaption><b>S04</b>Oracle 第三步：问题输入<small>10～500 字与开放问题引导；E-J-009</small></figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S05-Reading历史记录.jpg" alt="Reading 历史记录"><figcaption><b>S05</b>Oracle 与 Daily 共用 History<small>牌阵、意图、摘要与时间；E-J-013～015</small></figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S06-Oracle三牌结果.jpg" alt="Oracle 三牌结果"><figcaption><b>S06</b>三牌结果与正逆位<small>Past / Present / Possible；E-J-011～012</small></figcaption></figure>
+        <figure class="shot"><img loading="lazy" src="evidence/screenshots/S07-Oracle人格化解读正文.jpg" alt="Oracle 人格化解读正文"><figcaption><b>S07</b>人格化解读正文<small>Direct word、位置解读与反思问题；E-A-001～002</small></figcaption></figure>
+      </div>
+      <div class="callout"><b>隐私处理：</b>未纳入包含邮箱、出生日期等账户字段实际值的 Profile 截图；报告只保留字段用途和非敏感页面证据。</div>
+    </section>
+
     <section id="domains" class="panel">
-      <div class="head"><h2>3. 核心功能域</h2><p>从用户看到的仪式与账户空间出发，不从模型能力倒推产品。</p></div>
+      <div class="head"><h2>4. 核心功能域</h2><p>从用户看到的仪式与账户空间出发，不从模型能力倒推产品。</p></div>
       <div class="domain-grid">
         <article class="domain"><span class="tag confirmed">已确认</span><h3>获客与定位</h3><p>强风格首页、十张样例、FAQ、About 与 App CTA。</p></article>
         <article class="domain"><span class="tag confirmed">已确认</span><h3>账户与身份</h3><p>昵称、邮箱、密码注册；登录、退出和永久删除入口。</p></article>
@@ -108,7 +124,7 @@
     </section>
 
     <section id="e2e" class="panel">
-      <div class="head"><h2>4. 端到端功能流转表</h2><p>同一次 General / Three 阅读，同时追踪用户、编排、工具、数据与资产五条流。</p></div>
+      <div class="head"><h2>5. 端到端功能流转表</h2><p>同一次 General / Three 阅读，同时追踪用户、编排、工具、数据与资产五条流。</p></div>
       <div class="table-wrap"><table><thead><tr><th>步骤</th><th>用户交互</th><th>控制流</th><th>工具/服务流</th><th>数据与上下文</th><th>结果/资产</th><th>失败与确认</th><th>证据</th></tr></thead><tbody>
         <tr><td>01 进入</td><td>登录账户，进入 Oracle</td><td>恢复用户会话</td><td>认证【推断】</td><td>User/Profile</td><td>账户空间</td><td>登录失败路径未测</td><td>E-J-005/006/016</td></tr>
         <tr><td>02 选意图</td><td>选择 General</td><td>Wizard 进入 intent 已选</td><td>会话状态</td><td>intent=general</td><td>步骤进度</td><td>Back 可见</td><td>E-J-007</td></tr>
@@ -123,7 +139,7 @@
     </section>
 
     <section id="layers" class="panel">
-      <div class="head"><h2>5. 产品九层架构</h2><p>组件名是语义架构，不代表真实微服务、表名或厂商。</p></div>
+      <div class="head"><h2>6. 产品九层架构</h2><p>组件名是语义架构，不代表真实微服务、表名或厂商。</p></div>
       <div class="layers">
         <article class="layer"><div class="layer-head"><span class="layer-no">01</span><div><h3>用户与渠道层</h3><p>谁进入、从哪里进入、受到什么地域与资格边界。</p></div></div><div class="components"><span class="component"><b>美国居民用户</b><small>当前公开定位</small></span><span class="component"><b>营销站</b><small>获客与样例</small></span><span class="component"><b>Web App</b><small>当前主产品</small></span><span class="component"><b>iOS</b><small>Coming Soon</small></span></div></article>
         <article class="layer"><div class="layer-head"><span class="layer-no">02</span><div><h3>交互与仪式层</h3><p>把通用文本生成塑造成“房间、牌桌与节奏”。</p></div></div><div class="components"><span class="component"><b>Landing / Sample</b><small>定位与预期</small></span><span class="component"><b>Daily</b><small>每日单牌</small></span><span class="component"><b>Oracle Wizard</b><small>三步配置</small></span><span class="component"><b>Card Table / Reveal</b><small>主动选择</small></span><span class="component"><b>Reading / History</b><small>结果与回访</small></span></div></article>
@@ -138,7 +154,7 @@
     </section>
 
     <section id="agent-map" class="panel">
-      <div class="head"><h2>6. Agent、工具和上下文关系</h2><p>用功能职能命名，不预设后台真的部署了四个 Agent。</p></div>
+      <div class="head"><h2>7. Agent、工具和上下文关系</h2><p>用功能职能命名，不预设后台真的部署了四个 Agent。</p></div>
       <div class="matrix-wrap"><div class="matrix">
         <article class="matrix-node"><span class="tag confirmed">已确认</span><h3>用户 / Oracle UI</h3><p>intent、spread、question、pick、reveal</p><div class="out">输出：ReadingDraft</div></article>
         <article class="matrix-node"><span class="tag inferred">合理推断</span><h3>Oracle Workflow</h3><p>校验、状态推进、确认门、运行 ID</p><div class="out">输出：ReadingRun</div></article>
@@ -152,7 +168,7 @@
     </section>
 
     <section id="context" class="panel">
-      <div class="head"><h2>7. 全局上下文架构</h2><p>把“记得你”拆成可见字段、最小读取、同意与可撤回，而不是一个模糊 Memory 框。</p></div>
+      <div class="head"><h2>8. 全局上下文架构</h2><p>把“记得你”拆成可见字段、最小读取、同意与可撤回，而不是一个模糊 Memory 框。</p></div>
       <div class="table-wrap"><table><thead><tr><th>上下文域</th><th>内容</th><th>生产者</th><th>消费者</th><th>修改/失效规则</th><th>等级</th></tr></thead><tbody>
         <tr><td>UserProfile</td><td>displayName、timezone、preferredIntent、birthDate optional</td><td>用户</td><td>Daily/Oracle</td><td>影响未来解读，不静默改写历史</td><td><span class="tag confirmed">字段确认</span></td></tr>
         <tr><td>ReadingDraft</td><td>intent、spread、question</td><td>用户/Workflow</td><td>Deck/Agent</td><td>修改后重置尚未确认的选牌</td><td><span class="tag inferred">实体推断</span></td></tr>
@@ -165,7 +181,7 @@
     </section>
 
     <section id="knowledge" class="panel">
-      <div class="head"><h2>8. 知识与公共资产架构</h2><p>SeeTarot 的壁垒不是“知道牌义”，而是把牌义、声音、节奏和用户记忆稳定组合。</p></div>
+      <div class="head"><h2>9. 知识与公共资产架构</h2><p>SeeTarot 的壁垒不是“知道牌义”，而是把牌义、声音、节奏和用户记忆稳定组合。</p></div>
       <div class="grid three">
         <article class="mini"><h3>牌组与传统解释</h3><p><span class="tag confirmed">官方声明</span> 78 张牌与传统解释。应版本化正位/逆位、位置语义和牌阵规则，避免模型自行漂移。</p></article>
         <article class="mini"><h3>声音规范</h3><p><span class="tag inferred">合理推断</span> “patient, strange, a little ominous”与非客服腔需要独立 Voice Guide、反例和回归测试。</p></article>
@@ -177,7 +193,7 @@
     </section>
 
     <section id="models" class="panel">
-      <div class="head"><h2>9. 模型接入与路由架构</h2><p>只确认“有生成结果”；厂商、模型名、温度、上下文窗口和安全模型均未知。</p></div>
+      <div class="head"><h2>10. 模型接入与路由架构</h2><p>只确认“有生成结果”；厂商、模型名、温度、上下文窗口和安全模型均未知。</p></div>
       <div class="table-wrap"><table><thead><tr><th>能力域</th><th>当前可见</th><th>不能确认</th><th>推荐路由输入</th><th>推荐失败策略</th><th>等级</th></tr></thead><tbody>
         <tr><td>Oracle 文本生成</td><td>稳定五段结构、问题与三牌融合</td><td>模型、Prompt、并发和成本</td><td>intent、spread、question、cards、allowedContext、voiceVersion</td><td>schema 校验；安全失败不自动重试</td><td><span class="tag confirmed">结果确认</span></td></tr>
         <tr><td>Daily 文本生成</td><td>单牌三段模板与画像语境</td><td>触发点、缓存、是否每日预生成</td><td>localDate、timezone、card、allowedProfile</td><td>已有 readingId 时只恢复，不重复生成</td><td><span class="tag confirmed">结果确认</span></td></tr>
@@ -188,7 +204,7 @@
     </section>
 
     <section id="technology" class="panel">
-      <div class="head"><h2>10. 底层架构选型表</h2><p>不猜 App 技术栈。先写必须具备的能力，再给可替换的技术类型。</p></div>
+      <div class="head"><h2>11. 底层架构选型表</h2><p>不猜 App 技术栈。先写必须具备的能力，再给可替换的技术类型。</p></div>
       <div class="table-wrap"><table><thead><tr><th>能力域</th><th>为什么需要</th><th>可能选型</th><th>推荐方案</th><th>确认程度</th></tr></thead><tbody>
         <tr><td>前端状态机</td><td>三步 Wizard、选牌、揭示、生成、恢复</td><td>显式有限状态机或状态图驱动 UI</td><td>单一 Reading lifecycle；刷新从 readingId 恢复</td><td><span class="tag suggested">高优先级</span></td></tr>
         <tr><td>认证与画像</td><td>账户、Profile、历史和删除</td><td>托管身份或自建认证 + 结构化用户库</td><td>PII 与模型上下文分离；字段级 consent</td><td><span class="tag inferred">能力需求</span></td></tr>
@@ -204,7 +220,7 @@
     </section>
 
     <section id="entities" class="panel">
-      <div class="head"><h2>11. 数据实体与 ER 图</h2><p>实体名是语义模板；有页面证据的对象与建议字段分开。</p></div>
+      <div class="head"><h2>12. 数据实体与 ER 图</h2><p>实体名是语义模板；有页面证据的对象与建议字段分开。</p></div>
       <div class="table-wrap"><table><thead><tr><th>实体</th><th>职责</th><th>关键关系</th><th>证据</th><th>等级</th></tr></thead><tbody>
         <tr><td>User</td><td>账户与私有数据所有者</td><td>1:1 Profile；1:N Reading/Reflection</td><td>登录与用户菜单</td><td><span class="tag confirmed">对象确认</span></td></tr>
         <tr><td>UserProfile</td><td>称呼、时区、偏好与可选出生日期</td><td>属于 User；供 Daily/Oracle 读取</td><td>Profile 标签和用途说明</td><td><span class="tag confirmed">字段确认</span></td></tr>
@@ -231,7 +247,7 @@
     </section>
 
     <section id="sequence" class="panel">
-      <div class="head"><h2>12. 端到端时序图</h2><p>Oracle 三牌实测时序；生成开始点为合理推断。</p></div>
+      <div class="head"><h2>13. 端到端时序图</h2><p>Oracle 三牌实测时序；生成开始点为合理推断。</p></div>
       <div class="code-wrap"><div class="code-head"><b>Mermaid sequenceDiagram · 含保存失败与重复提交</b><button class="btn copy" data-target="sequenceCode">复制时序图</button></div><pre id="sequenceCode">sequenceDiagram
   autonumber
   actor U as 用户
@@ -265,7 +281,7 @@
     </section>
 
     <section id="panorama" class="panel">
-      <div class="head"><h2>13. 产品全景架构主图</h2><p>绿色实线为已确认结果，金色虚线为合理推断，蓝色点线为建议设计。</p></div>
+      <div class="head"><h2>14. 产品全景架构主图</h2><p>绿色实线为已确认结果，金色虚线为合理推断，蓝色点线为建议设计。</p></div>
       <div class="diagram-scroll"><div class="diagram">
         <svg viewBox="0 0 1450 850" role="img" aria-label="SeeTarot 产品全景架构主图">
           <defs><marker id="ag" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#8fb589"/></marker><marker id="aa" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#e0a85d"/></marker><marker id="ab" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#86a5b7"/></marker></defs>
@@ -282,7 +298,7 @@
     </section>
 
     <section id="asis" class="panel">
-      <div class="head"><h2>14. 当前架构 As-Is</h2><p>只描述页面可以支持的现状与明确冲突。</p></div>
+      <div class="head"><h2>15. 当前架构 As-Is</h2><p>只描述页面可以支持的现状与明确冲突。</p></div>
       <div class="table-wrap"><table><thead><tr><th>主题</th><th>当前可见架构</th><th>证据等级</th><th>用户结果</th><th>缺口</th></tr></thead><tbody>
         <tr><td>核心仪式</td><td>Intent → Spread → Question → Pick → Reveal → Reading</td><td><span class="tag confirmed">已确认</span></td><td>比聊天框更有参与感和专用性</td><td>失败、取消与恢复不可见</td></tr>
         <tr><td>生成结果</td><td>Oracle 五段模板；Daily 三段模板</td><td><span class="tag confirmed">已确认</span></td><td>声音稳定，输出可读</td><td>模型、规则版本与高风险护栏未知</td></tr>
@@ -296,7 +312,7 @@
     </section>
 
     <section id="tobe" class="panel">
-      <div class="head"><h2>15. 建议架构 To-Be</h2><p>把体验优势保留，把状态、画像、治理与安全变成可验证契约。</p></div>
+      <div class="head"><h2>16. 建议架构 To-Be</h2><p>把体验优势保留，把状态、画像、治理与安全变成可验证契约。</p></div>
       <div class="table-wrap"><table><thead><tr><th>维度</th><th>建议设计</th><th>用户可见变化</th><th>系统能力</th><th>验收指标</th></tr></thead><tbody>
         <tr><td>统一状态</td><td>ReadingLifecycle：draft / selecting / revealing / generating / completed / failed / interrupted</td><td>刷新后恢复到唯一正确位置</td><td>单一写入者、runId、idempotencyKey</td><td>Daily/History 冲突率 &lt;0.1%</td></tr>
         <tr><td>日期事实源</td><td>localDate 与 createdAtUTC 分离</td><td>Daily、详情、History 显示同一用户当地日期</td><td>timezone 版本与迁移规则</td><td>跨页面日期一致率 100%</td></tr>
@@ -310,7 +326,7 @@
     </section>
 
     <section id="risks" class="panel">
-      <div class="head"><h2>16. 关键架构风险</h2><p>按用户伤害、合规和重复运行风险排序。</p></div>
+      <div class="head"><h2>17. 关键架构风险</h2><p>按用户伤害、合规和重复运行风险排序。</p></div>
       <div class="risk-grid">
         <article class="risk" style="--tone:var(--red)"><span class="tag confirmed">P0 · 已确认</span><h3>App 政策覆盖缺口</h3><p>应用页脚链接到明确声明只覆盖营销站的政策。</p><div class="impact">影响：账户、Reading、画像和模型处理缺少可见法律契约</div></article>
         <article class="risk" style="--tone:var(--red)"><span class="tag confirmed">P0 · 已确认</span><h3>Daily 状态不一致</h3><p>页面持续 loading，History 已 completed，可能诱发重复操作。</p><div class="impact">影响：完成事实不可信、重复运行和客服成本</div></article>
@@ -325,7 +341,7 @@
     </section>
 
     <section id="trace" class="panel">
-      <div class="head"><h2>17. 架构组件—证据追溯</h2><p>筛选不同证据等级，检查主图有没有把推断画成事实。</p></div>
+      <div class="head"><h2>18. 架构组件—证据追溯</h2><p>筛选不同证据等级，检查主图有没有把推断画成事实。</p></div>
       <div class="controls"><button class="btn active" data-filter="all">全部</button><button class="btn" data-filter="confirmed">已确认</button><button class="btn" data-filter="inferred">合理推断</button><button class="btn" data-filter="suggested">建议设计</button><button class="btn" data-filter="unknown">未知</button></div>
       <div class="table-wrap"><table id="traceTable"><thead><tr><th>组件/规则</th><th>为什么需要</th><th>证据</th><th>等级</th><th>置信度</th><th>层级</th></tr></thead><tbody>
         <tr data-level="confirmed"><td>Oracle Wizard</td><td>收集意图、牌阵和问题</td><td>E-J-007～009</td><td><span class="tag confirmed">已确认</span></td><td>100%</td><td>L2/L3</td></tr>
@@ -349,7 +365,7 @@
     </section>
 
     <section id="unknowns" class="panel">
-      <div class="head"><h2>18. 仍然无法确认的问题</h2><p>完整图形不等于后台真实实现完整可见。</p></div>
+      <div class="head"><h2>19. 仍然无法确认的问题</h2><p>完整图形不等于后台真实实现完整可见。</p></div>
       <div class="grid three">
         <article class="mini"><h3>真实 Agent 数量</h3><p>Oracle、Daily 和 Memory 是否是独立 Agent，还是同一模型的不同模板？</p></article>
         <article class="mini"><h3>模型与 Prompt</h3><p>供应商、模型名、Prompt 版本、温度、上下文窗口和成本未知。</p></article>
